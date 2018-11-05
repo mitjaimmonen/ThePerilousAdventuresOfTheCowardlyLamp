@@ -152,6 +152,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 71d13f7154b6b80469f1b0b878d8414e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 71d13f7154b6b80469f1b0b878d8414e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 71d13f7154b6b80469f1b0b878d8414e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d13f7154b6b80469f1b0b878d8414e, type: 3}
   m_IsPrefabAsset: 0
@@ -208,48 +220,6 @@ PolygonCollider2D:
       - {x: 31.56011, y: -8.575168}
       - {x: 23.475105, y: -9.564497}
       - {x: 13.823719, y: -8.994816}
---- !u!1001 &150357279
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.951
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,10 +359,6 @@ Prefab:
     - target: {fileID: 1265482287360834, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
       propertyPath: m_Name
       value: ShardGround (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 91.452
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
@@ -845,6 +811,48 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!1001 &787437745
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.951
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215938760978624, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1001 &807163407
 Prefab:
   m_ObjectHideFlags: 0
@@ -929,22 +937,6 @@ Prefab:
     - target: {fileID: 1265482287360834, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
       propertyPath: m_Name
       value: ShardGround (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -8.183001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.9570776
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.9570776
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.9570776
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
@@ -4425,22 +4417,6 @@ Prefab:
     - target: {fileID: 1265482287360834, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
       propertyPath: m_Name
       value: ShardGround (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 17.454
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.75521
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.75521
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383001438902286, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.75521
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 893dc9f0364484a48ae5f1b55f663cfa, type: 2}

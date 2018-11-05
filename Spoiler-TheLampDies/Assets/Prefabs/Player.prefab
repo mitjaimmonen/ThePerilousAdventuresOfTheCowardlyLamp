@@ -13,14 +13,14 @@ Prefab:
   m_IsPrefabAsset: 1
 --- !u!1 &1020665032279366
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4818924602123408}
   m_Layer: 0
-  m_Name: PlayerVisualls
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,6 +38,21 @@ GameObject:
   - component: {fileID: 23485386769399542}
   m_Layer: 0
   m_Name: Player_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1569846853809066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4747778032756984}
+  m_Layer: 0
+  m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,6 +83,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4215938760978624}
+  - component: {fileID: 114019585787634412}
   - component: {fileID: 114624413463345098}
   - component: {fileID: 50447097632785246}
   - component: {fileID: 70324906842020152}
@@ -88,7 +104,7 @@ Transform:
   m_LocalPosition: {x: 1.51, y: 1.951, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4818924602123408}
+  - {fileID: 4747778032756984}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -99,11 +115,25 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1095132365301792}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4818924602123408}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4747778032756984
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1569846853809066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4818924602123408}
+  m_Father: {fileID: 4215938760978624}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4818924602123408
 Transform:
@@ -111,13 +141,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1020665032279366}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.745, y: 3.08, z: 0.96}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.79, y: 3.06, z: 1.152}
   m_LocalScale: {x: 0.27402675, y: 0.27402675, z: 0.27402675}
   m_Children:
   - {fileID: 4946546659180124}
   - {fileID: 4223666870394278}
-  m_Father: {fileID: 4215938760978624}
+  m_Father: {fileID: 4747778032756984}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4946546659180124
@@ -127,7 +157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1788100699212664}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4818924602123408}
@@ -252,6 +282,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &114019585787634412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1958480063601006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33b3695a08365d4b839e618e33d07ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visuals: {fileID: 1569846853809066}
 --- !u!114 &114624413463345098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,14 +307,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 512
-  playerCollider: {fileID: 0}
-  rb: {fileID: 0}
-  spawnPosition: {x: 0, y: 0, z: 0}
+    m_Bits: 1536
   jumpForce: 8
   targetJumpSpeed: 6
   wallJumpHeightMultiplier: 1
-  jumpDuration: 0
+  jumpDuration: 1
   maxSpeed: 5
   groundAcceleration: 35
   airAcceleration: 35
@@ -281,3 +320,4 @@ MonoBehaviour:
   frictionSlideMultiplier: 0.85
   groundFriction: 20
   airFriction: 10
+  visualsRotAngle: 10

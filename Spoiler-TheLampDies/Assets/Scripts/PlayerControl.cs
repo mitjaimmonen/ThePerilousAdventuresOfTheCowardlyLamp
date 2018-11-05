@@ -4,11 +4,7 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour
 {
 
-public LayerMask groundLayerMask;
-	public CapsuleCollider2D playerCollider;
-	public Rigidbody2D rb;
-	public Vector3 spawnPosition;
-
+	public LayerMask groundLayerMask;
 	public float jumpForce = 8f;
 	public float targetJumpSpeed = 6f;
 
@@ -23,124 +19,112 @@ public LayerMask groundLayerMask;
 	public float frictionSlideMultiplier = 0.85f;
 	public float groundFriction = 1f;
 	public float airFriction = 1f;
+	public float visualsRotAngle;
 
-	
+
+	private Player player;
+	private CapsuleCollider2D playerCollider;
+	private Rigidbody2D rb;
+
+
+	private Vector2 spawnPosition;
+	private Vector2 inputModifier;
 	private bool disableInputs;
-	Vector2 inputModifier;
-	
-
 	private bool jumpInput = false;
 	private bool prevJumpInput = false;
 
 
-	private bool _canJump;
-	private bool _canFloat = false;
-	private bool _isGrounded;
-	private bool _isWalled;
-	private bool _isRoofed;
-	private bool _wallLeft;
-	private bool _wallRight;
+	private bool canJump;
+	private bool canFloat = false;
+	private bool isGrounded;
+	private bool isWalled;
+	private bool isRoofed;
+	private bool wallLeft;
+	private bool wallRight;
 
 
 
 	#region Timers
 
 	private float delta;
-	private float _jumpTimer;
+	private float jumpTimer;
 	private float forceMoveTimer = 0;
 	private float inputOverrideTimer = 0;
 	private float wallStickTimer = 0;
 
 	#endregion
 
-
-	void Awake()
+	private void Awake()
 	{
+		player = GetComponent<Player>();
 		playerCollider = GetComponent<CapsuleCollider2D>();
 		rb = GetComponent<Rigidbody2D>();
 	}
 
-	bool IsGrounded()
+	private bool IsGrounded()
 	{
-		float searchMagnitude = 0.1f;
+		float threshold = 0.01f; // Adds to the y position so that circle check is not completely inside player collider
+		Vector2 colSize = playerCollider.size; // easy access size
+		Vector2 pos = transform.position; // easy access position
+
+		Vector2 circlePos = new Vector2 (pos.x, pos.y- ((colSize.y/4f)-threshold));
+		Collider2D col = Physics2D.OverlapCircle(circlePos, Mathf.Max(colSize.x/2f,colSize.y/2f), groundLayerMask);
+		if (col != null)
+		{
+			//Collider hit something in ground layers
+			isGrounded = true;
+			return isGrounded;
+		}
+
+		isGrounded = false;
+		return isGrounded;
+	}
+
+	private bool IsRoofed()
+	{
+		float threshold = 0.01f; // Adds to the y position so that circle check is not completely inside player collider
+		Vector2 colSize = playerCollider.size; // easy access size
+		Vector2 pos = transform.position; // easy access position
+
+		Vector2 circlePos = new Vector2 (pos.x, pos.y + ((colSize.y/4f)+threshold));
+		Collider2D col = Physics2D.OverlapCircle(circlePos, Mathf.Max(colSize.x/2f,colSize.y/2f), groundLayerMask);
+		if (col != null)
+		{
+			Debug.Log("IsRoofed");
+			isRoofed = true;
+			return isRoofed;
+		}
+
+		isRoofed = false;
+		return false;
+	}
+
+	private bool IsWalled()
+	{
+		isWalled = false;
+		wallLeft = false;
+		wallRight = false;
+
 		float threshold = 0.01f;
 		Vector2 colSize = playerCollider.size;
 		Vector2 pos = transform.position;
 
-		Vector2 bottomLineStart = new Vector2 (pos.x, pos.y- ((colSize.y/2f)-threshold));
-		Vector2 BottomLineEnd = new Vector2(pos.x, bottomLineStart.y - searchMagnitude);
-		RaycastHit2D bottomHit = Physics2D.Linecast(bottomLineStart, BottomLineEnd, groundLayerMask);
-		if (bottomHit)
-		{
-			_isGrounded = true;
-			return _isGrounded;
-		}
-
-		_isGrounded = false;
-		return _isGrounded;
-	}
-
-	bool IsRoofed()
-	{
-		float searchMagnitude = 0.1f;
-		float threshold = 0.01f;
-		Vector2 extents = playerCollider.bounds.extents;
-		Vector2 pos = transform.position;
-
-		Vector2 topLineStart = new Vector2 (pos.x - extents.x, pos.y+ (extents.y-threshold));
-		Vector2 topLineEnd = new Vector2(topLineStart.x, topLineStart.y + searchMagnitude);
-		RaycastHit2D topHit = Physics2D.Linecast(topLineStart, topLineEnd, groundLayerMask);
-		if (topHit)
-		{
-			_isRoofed = true;
-			return topHit;
-		}
-		else
-		{
-			topLineStart = new Vector2 (pos.x + extents.x, pos.y + (extents.y-threshold));
-			topLineEnd = new Vector2(topLineStart.x, topLineStart.y + searchMagnitude);
-			topHit = Physics2D.Linecast(topLineStart, topLineEnd, groundLayerMask);
-			if (topHit)
-			{
-				_isRoofed = true;
-				return topHit;
-			}
-
-		}
-		_isRoofed = false;
-		return false;
-	}
-
-	bool IsWalled()
-	{
-		_isWalled = false;
-		_wallLeft = false;
-		_wallRight = false;
-
-		float searchMagnitude = 0.1f;
-		float threshold = 0.01f;
-		Vector2 extents = playerCollider.bounds.extents;
-		Vector2 pos = transform.position;
-
-		Vector2 leftLineStart = new Vector2 (pos.x - extents.x - threshold, pos.y);
-		Vector2 leftLineEnd = new Vector2(leftLineStart.x - searchMagnitude, leftLineStart.y);
-		RaycastHit2D leftHit = Physics2D.Linecast(leftLineStart, leftLineEnd, groundLayerMask);
+		Collider2D leftHit = Physics2D.OverlapCapsule(new Vector2(pos.x-threshold, pos.y), colSize,CapsuleDirection2D.Vertical, groundLayerMask);
 		if (leftHit)
 		{
-			_wallLeft = true;
-			_isWalled = true;
+			Debug.Log("Wall is left");
+			wallLeft = true;
+			isWalled = true;
 		}
-
-		Vector2 rightLineStart = new Vector2 (pos.x + extents.x + threshold, pos.y);
-		Vector2 rightLineEnd = new Vector2(rightLineStart.x + searchMagnitude, rightLineStart.y);
-		RaycastHit2D rightHit = Physics2D.Linecast(rightLineStart, rightLineEnd, groundLayerMask);
+		Collider2D rightHit = Physics2D.OverlapCapsule(new Vector2(pos.x+threshold, pos.y), colSize,CapsuleDirection2D.Vertical, groundLayerMask);
 		if (rightHit)
 		{
-			_wallRight = true;
-			_isWalled = true;
+			Debug.Log("Wall is right");
+			wallRight = true;
+			isWalled = true;
 		}
-		
-		return _isWalled;
+
+		return isWalled;
 	}
 
 	public void SetSpawnpoint(Vector3 position)
@@ -153,7 +137,7 @@ public LayerMask groundLayerMask;
 		StartCoroutine(Respawn());
 	}
 
-	IEnumerator Respawn()
+	private IEnumerator Respawn()
 	{
 		rb.velocity = Vector2.zero;
 		rb.isKinematic = true;
@@ -167,12 +151,12 @@ public LayerMask groundLayerMask;
 		renderer.enabled = true;
 		disableInputs = false;
 		rb.isKinematic = false;
-		
+
 		yield break;
 	}
 
 
-	void Update()
+	private void Update()
 	{
 		//Store deltaTime for easy access
 		delta = Time.deltaTime;
@@ -187,29 +171,30 @@ public LayerMask groundLayerMask;
 			HandleKeyInput();
 		}
 		HandleMoving();
+		RotateVisuals();
 		JumpAndFloat();
 	}
 
-	void HandleKeyInput()
+	private void HandleKeyInput()
 	{
 		inputModifier.x = Input.GetAxis("Horizontal");
 		inputModifier.y = Input.GetAxis("Vertical");
 		jumpInput = Input.GetButton("Jump");
 	}
 
-	void HandleMoving()
+	private void HandleMoving()
 	{
-		float acceleration = _isGrounded ? groundAcceleration : airAcceleration;
+		float acceleration = isGrounded ? groundAcceleration : airAcceleration;
 		Vector2 absModifier = new Vector2(Mathf.Abs(inputModifier.x), Mathf.Abs(inputModifier.y));
 
-		if (_isWalled && absModifier.x > 0.05f)
+		if (isWalled && absModifier.x > 0.05f)
 		{
 			if (wallStickTimer < wallStickTime)
 			{
 				wallStickTimer += delta;
 			}
 		}
-		if (!_isWalled)
+		if (!isWalled)
 		{
 			wallStickTimer = 0;
 			// if (!(((!_wallLeft && inputModifier.x < 0.05f) || (!_wallRight && inputModifier.x > -0.05f) ) && wallStickTimer < wallStickTime) ||_isGrounded)
@@ -222,18 +207,18 @@ public LayerMask groundLayerMask;
 				if (rb.velocity.x > maxSpeed)
 					rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
 			}
-			
+
 		}
-		
-			
+
+
 		if (absModifier.x < 0.05f)
 		{
 			float oldXVel = rb.velocity.x;
 
-			if (_isGrounded)
+			if (isGrounded)
 				rb.velocity = rb.velocity + new Vector2(-rb.velocity.x * groundFriction * Time.deltaTime, 0);
 
-			if (!_isGrounded)
+			if (!isGrounded)
 				rb.velocity = rb.velocity + new Vector2(-rb.velocity.x * airFriction * Time.deltaTime, 0);
 
 			if ((oldXVel < 0 && rb.velocity.x > 0) && (oldXVel > 0 && rb.velocity.x < 0))
@@ -241,7 +226,7 @@ public LayerMask groundLayerMask;
 
 		}
 
-		if ((inputModifier.x < -0.05f && _wallLeft) || (inputModifier.x > 0.05f && _wallRight))
+		if ((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight))
 		{
 			Debug.Log("Detecting walls");
 			if (rb.velocity.y < -frictionSlideTargetSpeed)
@@ -261,13 +246,34 @@ public LayerMask groundLayerMask;
 			forceMoveTimer = 0;
 	}
 
-	void ForceMove()		// Called if player seems to be stuck
+
+	private void RotateVisuals()
+	{
+		if (Mathf.Approximately(rb.velocity.x, 0))
+			//Apply rotation with slerp to smooth it out
+			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,0), Time.deltaTime*5f);
+		else
+		{
+			//Rotation amount according to current speed.
+			float rot = (Mathf.Abs(rb.velocity.x)/maxSpeed) * visualsRotAngle;
+			//Rotation direction from velocity.
+			rot *= rb.velocity.x > 0 ? -1 : 1;
+
+			//Apply rotation with slerp to smooth it out
+			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,rot), Time.deltaTime*5f);
+
+
+		}
+
+	}
+
+	private void ForceMove()		// Called if player seems to be stuck
 	{
 		//Ignore force move in cases where player tries to get inside walls.
-		if (((inputModifier.x < -0.05f && _wallLeft) || (inputModifier.x > 0.05f && _wallRight) || (jumpInput && _isRoofed)) && !(_isWalled && _isRoofed && _isGrounded))
+		if (((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight) || (jumpInput && isRoofed)) && !(isWalled && isRoofed && isGrounded))
 			return;
 
-		if ((_isWalled && _isGrounded) || (_isRoofed && _isGrounded))
+		if ((isWalled && isGrounded) || (isRoofed && isGrounded))
 		{
 			Debug.LogWarning("Force Move");
 			Vector3 dir = new Vector3(inputModifier.normalized.x, jumpInput? 0.1f : 0.0f, 0);
@@ -275,13 +281,13 @@ public LayerMask groundLayerMask;
 		}
 	}
 
-	void JumpAndFloat()
+	private void JumpAndFloat()
 	{
 		if (!jumpInput)
 		{
-			_canFloat = false;
-			if (_isWalled || _isGrounded)
-				_canJump = true;
+			canFloat = false;
+			if (isWalled || isGrounded)
+				canJump = true;
 			if (rb.velocity.y > 0)
 			{
 				//Slows down upwards movement
@@ -291,34 +297,35 @@ public LayerMask groundLayerMask;
 		}
 
 			Debug.Log("jump input yo");
-		if (_isGrounded && _canJump)
+		if (isGrounded && canJump)
 		{
+			Debug.Log("JUMP");
 			rb.velocity = rb.velocity + Vector2.up * jumpForce;
-			_jumpTimer = 0;
-			_canJump = false;
-			_canFloat = true;
+			jumpTimer = 0;
+			canJump = false;
+			canFloat = true;
 			prevJumpInput = true;
 		}
-		else if (_isWalled && _canJump)
+		else if (isWalled && canJump)
 		{
-			int wallHitDirection = _wallLeft ? 1 : -1;
+			int wallHitDirection = wallLeft ? 1 : -1;
 			Vector2 force;
-			force.x = (_wallLeft ? 1f : 0f) + (_wallRight ? -1f : 0f);
+			force.x = (wallLeft ? 1f : 0f) + (wallRight ? -1f : 0f);
 			force.x *= jumpForce;
 			force.y = jumpForce * wallJumpHeightMultiplier;
 
 			rb.velocity = force;
-			_jumpTimer = 0;
-			_canJump = false;
-			_canFloat = true;
+			jumpTimer = 0;
+			canJump = false;
+			canFloat = true;
 			prevJumpInput = true;
 		}
 
 
-		if (_canFloat && jumpInput)
+		if (canFloat && jumpInput)
 		{
-			_jumpTimer += delta;
-			if (_jumpTimer < jumpDuration /1000)
+			jumpTimer += delta;
+			if (jumpTimer < jumpDuration /1000)
 			{
 				Debug.Log("Floaty mc floater");
 				if (rb.velocity.y < targetJumpSpeed)
@@ -327,8 +334,8 @@ public LayerMask groundLayerMask;
 				// rb.velocity = new Vector2 (rb.velocity.x, _canFloatUp ? jumpForce : 0);
 			}
 			else
-				_canFloat = false;
-			
+				canFloat = false;
+
 		}
 	}
 }
