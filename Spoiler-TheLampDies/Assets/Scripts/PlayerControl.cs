@@ -29,6 +29,7 @@ public class PlayerControl : MonoBehaviour
 
 	private Vector2 spawnPosition;
 	private Vector2 inputModifier;
+	private Vector2 velocity;
 	private bool disableInputs;
 	private bool jumpInput = false;
 	private bool prevJumpInput = false;
@@ -63,15 +64,17 @@ public class PlayerControl : MonoBehaviour
 
 	private bool IsGrounded()
 	{
-		float threshold = 0.01f; // Adds to the y position so that circle check is not completely inside player collider
+		float offset = 0.02f; // Adds to the y position so that circle check is not completely inside player collider
+		float threshold = 0.01f; // makes the circle size a bit smaller
 		Vector2 colSize = playerCollider.size; // easy access size
 		Vector2 pos = transform.position; // easy access position
 
-		Vector2 circlePos = new Vector2 (pos.x, pos.y- ((colSize.y/4f)-threshold));
-		Collider2D col = Physics2D.OverlapCircle(circlePos, Mathf.Max(colSize.x/2f,colSize.y/2f), groundLayerMask);
+		Vector2 circlePos = new Vector2 (pos.x, pos.y - (colSize.y/4f) - offset);
+		Collider2D col = Physics2D.OverlapCircle(circlePos, (colSize.x*0.5f)-threshold, groundLayerMask);
 		if (col != null)
 		{
 			//Collider hit something in ground layers
+			Debug.Log("IsGrounded: " + col.gameObject);
 			isGrounded = true;
 			return isGrounded;
 		}
@@ -82,15 +85,16 @@ public class PlayerControl : MonoBehaviour
 
 	private bool IsRoofed()
 	{
-		float threshold = 0.01f; // Adds to the y position so that circle check is not completely inside player collider
+		float offset = 0.02f; // Adds to the y position so that circle check is not completely inside player collider
+		float threshold = 0.01f; // makes the circle size a bit smaller
 		Vector2 colSize = playerCollider.size; // easy access size
 		Vector2 pos = transform.position; // easy access position
 
-		Vector2 circlePos = new Vector2 (pos.x, pos.y + ((colSize.y/4f)+threshold));
-		Collider2D col = Physics2D.OverlapCircle(circlePos, Mathf.Max(colSize.x/2f,colSize.y/2f), groundLayerMask);
+		Vector2 circlePos = new Vector2 (pos.x, pos.y + ((colSize.y/4f)+offset));
+		Collider2D col = Physics2D.OverlapCircle(circlePos, (colSize.x*0.5f)-threshold, groundLayerMask);
 		if (col != null)
 		{
-			Debug.Log("IsRoofed");
+			Debug.Log("IsRoofed: " + col.gameObject);
 			isRoofed = true;
 			return isRoofed;
 		}
@@ -105,19 +109,22 @@ public class PlayerControl : MonoBehaviour
 		wallLeft = false;
 		wallRight = false;
 
-		float threshold = 0.01f;
+		float offset = 0.02f;
 		Vector2 colSize = playerCollider.size;
+		colSize.y -= colSize.x*0.5f;
 		Vector2 pos = transform.position;
+		ContactFilter2D filter = new ContactFilter2D();
+		filter.SetLayerMask(groundLayerMask);
 
-		Collider2D leftHit = Physics2D.OverlapCapsule(new Vector2(pos.x-threshold, pos.y), colSize,CapsuleDirection2D.Vertical, groundLayerMask);
-		if (leftHit)
+		Collider2D leftHit = Physics2D.OverlapCapsule(new Vector2(pos.x-offset, pos.y), colSize,CapsuleDirection2D.Vertical, 0 ,groundLayerMask);
+		if (leftHit != null && leftHit.gameObject != null)
 		{
-			Debug.Log("Wall is left");
+			Debug.Log("Wall is left: " + leftHit.gameObject);
 			wallLeft = true;
 			isWalled = true;
 		}
-		Collider2D rightHit = Physics2D.OverlapCapsule(new Vector2(pos.x+threshold, pos.y), colSize,CapsuleDirection2D.Vertical, groundLayerMask);
-		if (rightHit)
+		Collider2D rightHit = Physics2D.OverlapCapsule(new Vector2(pos.x+offset, pos.y), colSize,CapsuleDirection2D.Vertical, 0 ,groundLayerMask);
+		if (rightHit != null && rightHit.gameObject != null)
 		{
 			Debug.Log("Wall is right");
 			wallRight = true;
@@ -139,7 +146,7 @@ public class PlayerControl : MonoBehaviour
 
 	private IEnumerator Respawn()
 	{
-		rb.velocity = Vector2.zero;
+		velocity = Vector2.zero;
 		rb.isKinematic = true;
 		disableInputs = true;
 		MeshRenderer renderer = GetComponent<MeshRenderer>();
@@ -186,6 +193,7 @@ public class PlayerControl : MonoBehaviour
 	{
 		float acceleration = isGrounded ? groundAcceleration : airAcceleration;
 		Vector2 absModifier = new Vector2(Mathf.Abs(inputModifier.x), Mathf.Abs(inputModifier.y));
+		velocity = rb.velocity;
 
 		if (isWalled && absModifier.x > 0.05f)
 		{
@@ -199,43 +207,47 @@ public class PlayerControl : MonoBehaviour
 			wallStickTimer = 0;
 			// if (!(((!_wallLeft && inputModifier.x < 0.05f) || (!_wallRight && inputModifier.x > -0.05f) ) && wallStickTimer < wallStickTime) ||_isGrounded)
 			{
-				if (Mathf.Abs(rb.velocity.x) < maxSpeed)
-					rb.velocity = rb.velocity + new Vector2(acceleration * inputModifier.x * Time.deltaTime, 0.0f);
+				if (Mathf.Abs(velocity.x) < maxSpeed)
+					velocity = velocity + new Vector2(acceleration * inputModifier.x * Time.deltaTime, 0.0f);
 				else
-					rb.velocity = rb.velocity + new Vector2(maxSpeed * inputModifier.x * Time.deltaTime, 0.0f);
+					velocity = velocity + new Vector2(maxSpeed * inputModifier.x * Time.deltaTime, 0.0f);
 
-				if (rb.velocity.x > maxSpeed)
-					rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+				if (velocity.x > maxSpeed)
+					velocity = new Vector2(maxSpeed, velocity.y);
 			}
 
 		}
 
 
-		if (absModifier.x < 0.05f)
+		if (absModifier.x < 0.05f || (inputModifier.x > 0.05f && velocity.x < -0.05f) || (inputModifier.x < -0.05f && velocity.x > 0.05f))
 		{
-			float oldXVel = rb.velocity.x;
+			float oldXVel = velocity.x;
 
 			if (isGrounded)
-				rb.velocity = rb.velocity + new Vector2(-rb.velocity.x * groundFriction * Time.deltaTime, 0);
+				velocity = velocity + new Vector2(-velocity.x * groundFriction * Time.deltaTime, 0);
 
 			if (!isGrounded)
-				rb.velocity = rb.velocity + new Vector2(-rb.velocity.x * airFriction * Time.deltaTime, 0);
+				velocity = velocity + new Vector2(-velocity.x * airFriction * Time.deltaTime, 0);
 
-			if ((oldXVel < 0 && rb.velocity.x > 0) && (oldXVel > 0 && rb.velocity.x < 0))
-				rb.velocity = new Vector2(0, rb.velocity.y);
+			if ((oldXVel < 0 && velocity.x > 0) && (oldXVel > 0 && velocity.x < 0))
+				velocity = new Vector2(0, velocity.y);
 
 		}
 
 		if ((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight))
 		{
 			Debug.Log("Detecting walls");
-			if (rb.velocity.y < -frictionSlideTargetSpeed)
-				rb.velocity = new Vector2(0, rb.velocity.y + (-rb.velocity.y * frictionSlideMultiplier * Time.deltaTime));
+			if (velocity.y < -frictionSlideTargetSpeed)
+				velocity = new Vector2(0, velocity.y + (-velocity.y * frictionSlideMultiplier * Time.deltaTime));
 		}
+
+		//Limit velocity if over max
+		if (Mathf.Abs(velocity.x) > maxSpeed)
+			velocity.x = Mathf.Clamp(velocity.x,-1f,1f) * maxSpeed;
 
 
 		//In case character seems to be stuck for a while
-		if (absModifier.x > 0.05f && rb.velocity.magnitude <0.01f)
+		if (absModifier.x > 0.05f && velocity.magnitude <0.01f)
 		{
 			Debug.Log("might need to force move");
 			forceMoveTimer += delta;
@@ -246,22 +258,26 @@ public class PlayerControl : MonoBehaviour
 			forceMoveTimer = 0;
 	}
 
+	private void FixedUpdate()
+	{
+		rb.velocity = velocity;
+	}
+
 
 	private void RotateVisuals()
 	{
-		if (Mathf.Approximately(rb.velocity.x, 0))
+		if (Mathf.Approximately(velocity.x, 0))
 			//Apply rotation with slerp to smooth it out
 			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,0), Time.deltaTime*5f);
 		else
 		{
 			//Rotation amount according to current speed.
-			float rot = (Mathf.Abs(rb.velocity.x)/maxSpeed) * visualsRotAngle;
+			float rot = (Mathf.Abs(velocity.x)/maxSpeed) * visualsRotAngle;
 			//Rotation direction from velocity.
-			rot *= rb.velocity.x > 0 ? -1 : 1;
+			rot *= velocity.x > 0 ? -1 : 1;
 
 			//Apply rotation with slerp to smooth it out
 			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,rot), Time.deltaTime*5f);
-
 
 		}
 
@@ -288,10 +304,10 @@ public class PlayerControl : MonoBehaviour
 			canFloat = false;
 			if (isWalled || isGrounded)
 				canJump = true;
-			if (rb.velocity.y > 0)
+			if (velocity.y > 0)
 			{
 				//Slows down upwards movement
-				rb.velocity = rb.velocity + new Vector2(0, -rb.velocity.y * airFriction * Time.deltaTime);
+				velocity = velocity + new Vector2(0, -velocity.y * airFriction * Time.deltaTime);
 			}
 			return;
 		}
@@ -300,7 +316,7 @@ public class PlayerControl : MonoBehaviour
 		if (isGrounded && canJump)
 		{
 			Debug.Log("JUMP");
-			rb.velocity = rb.velocity + Vector2.up * jumpForce;
+			velocity = velocity + Vector2.up * jumpForce;
 			jumpTimer = 0;
 			canJump = false;
 			canFloat = true;
@@ -314,7 +330,7 @@ public class PlayerControl : MonoBehaviour
 			force.x *= jumpForce;
 			force.y = jumpForce * wallJumpHeightMultiplier;
 
-			rb.velocity = force;
+			velocity = force;
 			jumpTimer = 0;
 			canJump = false;
 			canFloat = true;
@@ -328,10 +344,10 @@ public class PlayerControl : MonoBehaviour
 			if (jumpTimer < jumpDuration /1000)
 			{
 				Debug.Log("Floaty mc floater");
-				if (rb.velocity.y < targetJumpSpeed)
-					rb.velocity = rb.velocity + Vector2.up * jumpForce;
+				if (velocity.y < targetJumpSpeed)
+					velocity = velocity + Vector2.up * jumpForce;
 
-				// rb.velocity = new Vector2 (rb.velocity.x, _canFloatUp ? jumpForce : 0);
+				// velocity = new Vector2 (velocity.x, _canFloatUp ? jumpForce : 0);
 			}
 			else
 				canFloat = false;
