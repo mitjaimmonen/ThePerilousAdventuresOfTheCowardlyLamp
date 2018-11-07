@@ -5,15 +5,24 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	public GameObject visuals;
-	
+
+	public PlayerControl controller;
+	public PlayerCrosshair crosshair;
+	public PlayerDashAttack dashAttack;
 
 	// Use this for initialization
-	void Start () {
-		
+	private void Awake () {
+		controller = GetComponent<PlayerControl>();
+		crosshair = GetComponent<PlayerCrosshair>();
+		dashAttack = GetComponent<PlayerDashAttack>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void MasterUpdate()
+	{
+		//Decides which script updates run first.
+		crosshair.PlayerUpdate();
+		controller.PlayerUpdate();
+		dashAttack.PlayerUpdate();
 	}
+
 }

@@ -50,7 +50,6 @@ public class PlayerControl : MonoBehaviour
 	private float delta;
 	private float jumpTimer;
 	private float forceMoveTimer = 0;
-	private float inputOverrideTimer = 0;
 	private float wallStickTimer = 0;
 
 	#endregion
@@ -163,7 +162,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 
-	private void Update()
+	public void PlayerUpdate()
 	{
 		//Store deltaTime for easy access
 		delta = Time.deltaTime;
@@ -197,14 +196,17 @@ public class PlayerControl : MonoBehaviour
 
 		if (isWalled && absModifier.x > 0.05f)
 		{
-			if (wallStickTimer < wallStickTime)
+			if (wallStickTimer <= wallStickTime)
 			{
 				wallStickTimer += delta;
 			}
 		}
-		if (!isWalled)
+		else
 		{
 			wallStickTimer = 0;
+		}
+		if ((isWalled && wallStickTimer >= wallStickTime && !isGrounded) || !isWalled || isGrounded)
+		{
 			// if (!(((!_wallLeft && inputModifier.x < 0.05f) || (!_wallRight && inputModifier.x > -0.05f) ) && wallStickTimer < wallStickTime) ||_isGrounded)
 			{
 				if (Mathf.Abs(velocity.x) < maxSpeed)
@@ -236,7 +238,7 @@ public class PlayerControl : MonoBehaviour
 
 		if ((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight))
 		{
-			Debug.Log("Detecting walls");
+			Debug.Log("Going against wall");
 			if (velocity.y < -frictionSlideTargetSpeed)
 				velocity = new Vector2(0, velocity.y + (-velocity.y * frictionSlideMultiplier * Time.deltaTime));
 		}

@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour {
+
+/*****************
+INFO
+Master controller which has references to other classes and can be called from anywhere.
+Decides when updates get called for some classes.
+
+ ******************/
+
+public class GameMaster : MonoBehaviour {
 
 
-	private static GameController _instance;
-    public static GameController Instance
+	private static GameMaster _instance;
+    public static GameMaster Instance
     {
         get
         {
@@ -34,32 +42,34 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		
-        if (GameObject.FindGameObjectsWithTag("GameController").Length > 1)
-        {
-            Destroy(this.gameObject);
-        }
+        if (_instance != null && _instance != this)
+		{
+			Destroy(this.gameObject);
+		}
+		else
+		{
+			_instance = this;
+			DontDestroyOnLoad(this.gameObject);
 
-        _instance = this;
-        DontDestroyOnLoad(this.gameObject);
+			SceneManager.sceneLoaded += OnSceneLoaded;
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-		Initialize();
+			Initialize();
+		}
 	}
 
 	void Initialize()		//Called on sceneload & awake.
 	{
-		
 	}
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
 	{
         Initialize();
-        
-}
+	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	private void Update ()
+	{
+		//Call updates in other scripts if they should be called after each other.
+		Player.MasterUpdate();
 	}
 }
