@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShootShower : MonoBehaviour {
+public class PlayerProjectileAttack : MonoBehaviour {
 
-	public float projectileLifetime;
-	public float damage;
 	[Range(0f,1f)]
 	public float accuracy;
+	public float cooldown;
+	public int amountPerShot;
+	public ProjectileData projectileData;
 
 	
+
+	private Player player;
+	private float shotTime;	
 
 	[Header("Pool")]
 	public Projectile projectilePrefab;
@@ -35,6 +39,7 @@ public class PlayerShootShower : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		player = GetComponent<Player>();
 		for (int i = 0; i < poolProjectileAmount; i++)
 		{
 			CreateProjectile();
@@ -43,24 +48,54 @@ public class PlayerShootShower : MonoBehaviour {
 	
 	public void PlayerUpdate()
 	{
-		
+		if (Input.GetMouseButton(0) && shotTime+cooldown < Time.time)
+		{
+			Shoot();
+		}
 	}
+
+	private void Shoot()
+	{
+		var dir = player.crosshair.GetMouseDirectionFromPosition(transform.position).normalized;
+		dir.y += Random.Range(1-accuracy,-1+accuracy);
+		dir.x += Random.Range(1-accuracy,-1+accuracy);
+		dir.Normalize();
+
+		projectileData.direction = dir;
+		projectileData.startPosition = transform.position;
+
+		currentProjectile = GetProjectile();
+		currentProjectile.data = projectileData;
+		currentProjectile.Activate();
+
+		shotTime = Time.time;
+
+	}
+	
 
 	Projectile CreateProjectile()
 	{
 		Projectile temp = Instantiate(projectilePrefab, Vector2.zero, Quaternion.identity);
-		temp.gameObject.SetActive(false);
+		temp.Deactivate();
 		projectiles.Add(temp);
 
 		return temp;
 	}
-	void GetProjectile()
+	Projectile GetProjectile()
 	{
 		Projectile temp;
-		if (projectiles[index].gameObject.activeSelf && growPool)
+		if (projectiles[index].IsActive && (growPool || projectiles.Count < poolProjectileAmount))
+		{
 			temp = CreateProjectile();
+			Index = projectiles.Count-1;
+		}
 		else
+		{
 			temp = projectiles[index];
+			++Index;
+		}
+		
+		return temp;
 	}
 
 }

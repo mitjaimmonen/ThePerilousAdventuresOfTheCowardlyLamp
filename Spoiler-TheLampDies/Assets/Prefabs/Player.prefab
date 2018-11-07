@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4818924602123408}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4223666870394278}
   - component: {fileID: 33109559829136506}
   - component: {fileID: 23485386769399542}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4747778032756984}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4946546659180124}
   - component: {fileID: 33320303117505682}
   - component: {fileID: 23335220534620376}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,10 @@ GameObject:
   - component: {fileID: 114624413463345098}
   - component: {fileID: 50447097632785246}
   - component: {fileID: 70324906842020152}
-  m_Layer: 0
+  - component: {fileID: 114738244422684970}
+  - component: {fileID: 114073826598699790}
+  - component: {fileID: 114068202328872374}
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -294,6 +297,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 1569846853809066}
+  controller: {fileID: 0}
+  crosshair: {fileID: 0}
+  dashAttack: {fileID: 0}
+  projectileAttack: {fileID: 0}
+--- !u!114 &114068202328872374
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1958480063601006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea752449ee29354cabd4e61edc34318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accuracy: 0.5
+  cooldown: 0.05
+  amountPerShot: 2
+  projectileData:
+    startPosition: {x: 0, y: 0}
+    direction: {x: 0, y: 0}
+    damage: 5
+    lifetime: 3
+    startSpeed: 10
+    endSpeed: 0
+    reflectiveLayers:
+      serializedVersion: 2
+      m_Bits: 0
+    collidingLayers:
+      serializedVersion: 2
+      m_Bits: 0
+  projectilePrefab: {fileID: 114451059809196568, guid: e89369928004d8e48bc9bf1cb84a0d76,
+    type: 2}
+  poolProjectileAmount: 10
+  growPool: 0
+--- !u!114 &114073826598699790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1958480063601006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85fdd48e294d36f4f93db50e70526d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114624413463345098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -321,3 +370,16 @@ MonoBehaviour:
   groundFriction: 20
   airFriction: 5
   visualsRotAngle: 10
+--- !u!114 &114738244422684970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1958480063601006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd9a493e660d4d42a2c3070eada81f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCrosshair: {fileID: 0}
+  lockOnCrosshair: {fileID: 0}
