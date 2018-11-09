@@ -313,8 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea752449ee29354cabd4e61edc34318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accuracy: 0.75
-  cooldown: 0.025
+  accuracy: 0.8
+  cooldown: 0.05
   amountPerShot: 1
   projectileData:
     startPosition: {x: 0, y: 0}
