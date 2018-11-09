@@ -65,6 +65,7 @@ public class PlayerProjectileAttack : MonoBehaviour {
 
 		projectileData.direction = dir;
 		projectileData.startPosition = transform.position;
+		projectileData.playerSpeed = player.rb.velocity;
 
 		currentProjectile = GetProjectile();
 		currentProjectile.data = projectileData;
@@ -114,7 +115,6 @@ public class PlayerProjectileAttack : MonoBehaviour {
 		//creates new projectile into pool if all others are still active and pool is allowed to grow.
 		if (projectiles[index].IsActive && (growPool || projectiles.Count < maxProjectileAmount))
 		{
-			Debug.Log("Creating new projectile.");
 			temp = CreateProjectile();
 			Index = projectiles.Count-1;
 		}
@@ -122,7 +122,6 @@ public class PlayerProjectileAttack : MonoBehaviour {
 		{
 			//Deactivates an active projectile and puts it into re-use.
 			++Index;
-			Debug.LogWarning("Using existing and active projectile.");
 			temp = projectiles[index];
 			temp.Deactivate();
 		}

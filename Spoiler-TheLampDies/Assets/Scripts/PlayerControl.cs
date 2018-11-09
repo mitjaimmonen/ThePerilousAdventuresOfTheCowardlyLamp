@@ -49,7 +49,6 @@ public class PlayerControl : MonoBehaviour
 
 	private float delta;
 	private float jumpTimer;
-	private float forceMoveTimer = 0;
 	private float wallStickTimer = 0;
 
 	#endregion
@@ -63,7 +62,7 @@ public class PlayerControl : MonoBehaviour
 
 	private bool IsGrounded()
 	{
-		float offset = 0.02f; // Adds to the y position so that circle check is not completely inside player collider
+		float offset = 0.05f; // Adds to the y position so that circle check is not completely inside player collider
 		float threshold = 0.01f; // makes the circle size a bit smaller
 		Vector2 colSize = playerCollider.size; // easy access size
 		Vector2 pos = transform.position; // easy access position
@@ -73,7 +72,7 @@ public class PlayerControl : MonoBehaviour
 		if (col != null)
 		{
 			//Collider hit something in ground layers
-			Debug.Log("IsGrounded: " + col.gameObject);
+			Debug.Log("IsGrounded");
 			isGrounded = true;
 			return isGrounded;
 		}
@@ -84,7 +83,7 @@ public class PlayerControl : MonoBehaviour
 
 	private bool IsRoofed()
 	{
-		float offset = 0.02f; // Adds to the y position so that circle check is not completely inside player collider
+		float offset = 0.05f; // Adds to the y position so that circle check is not completely inside player collider
 		float threshold = 0.01f; // makes the circle size a bit smaller
 		Vector2 colSize = playerCollider.size; // easy access size
 		Vector2 pos = transform.position; // easy access position
@@ -93,7 +92,7 @@ public class PlayerControl : MonoBehaviour
 		Collider2D col = Physics2D.OverlapCircle(circlePos, (colSize.x*0.5f)-threshold, groundLayerMask);
 		if (col != null)
 		{
-			Debug.Log("IsRoofed: " + col.gameObject);
+			Debug.Log("IsRoofed");
 			isRoofed = true;
 			return isRoofed;
 		}
@@ -108,7 +107,7 @@ public class PlayerControl : MonoBehaviour
 		wallLeft = false;
 		wallRight = false;
 
-		float offset = 0.02f;
+		float offset = 0.05f;
 		Vector2 colSize = playerCollider.size;
 		colSize.y -= colSize.x*0.5f;
 		Vector2 pos = transform.position;
@@ -118,7 +117,7 @@ public class PlayerControl : MonoBehaviour
 		Collider2D leftHit = Physics2D.OverlapCapsule(new Vector2(pos.x-offset, pos.y), colSize,CapsuleDirection2D.Vertical, 0 ,groundLayerMask);
 		if (leftHit != null && leftHit.gameObject != null)
 		{
-			Debug.Log("Wall is left: " + leftHit.gameObject);
+			Debug.Log("Wall is left:");
 			wallLeft = true;
 			isWalled = true;
 		}
@@ -194,36 +193,23 @@ public class PlayerControl : MonoBehaviour
 		Vector2 absModifier = new Vector2(Mathf.Abs(inputModifier.x), Mathf.Abs(inputModifier.y));
 		velocity = rb.velocity;
 
-		if (isWalled && absModifier.x > 0.05f)
-		{
-			if (wallStickTimer <= wallStickTime)
-			{
-				wallStickTimer += delta;
-			}
-		}
+		//Wallsticktimer keeps player stuck to wall for a fraction of time before letting go, makes walljumping feel better & easier.
+		if ((wallLeft && inputModifier.x > 0.05f) || (wallRight && inputModifier.x < -0.05f))
+			wallStickTimer += delta;
 		else
-		{
 			wallStickTimer = 0;
-		}
+
 		if ((isWalled && wallStickTimer >= wallStickTime && !isGrounded) || !isWalled || isGrounded)
 		{
-			// if (!(((!_wallLeft && inputModifier.x < 0.05f) || (!_wallRight && inputModifier.x > -0.05f) ) && wallStickTimer < wallStickTime) ||_isGrounded)
-			{
-				if (Mathf.Abs(velocity.x) < maxSpeed)
-					velocity = velocity + new Vector2(acceleration * inputModifier.x * Time.deltaTime, 0.0f);
-				else
-					velocity = velocity + new Vector2(maxSpeed * inputModifier.x * Time.deltaTime, 0.0f);
-
-				if (velocity.x > maxSpeed)
-					velocity = new Vector2(maxSpeed, velocity.y);
-			}
-
+			velocity = velocity + new Vector2(acceleration * inputModifier.x * Time.deltaTime, 0.0f);
 		}
 
-
+		//If no input or input is opposite of current velocity direction
 		if (absModifier.x < 0.05f || (inputModifier.x > 0.05f && velocity.x < -0.05f) || (inputModifier.x < -0.05f && velocity.x > 0.05f))
 		{
-			float oldXVel = velocity.x;
+			// float oldXVel = velocity.x;
+
+			//Applies friction values to velocity according to state.
 
 			if (isGrounded)
 				velocity = velocity + new Vector2(-velocity.x * groundFriction * Time.deltaTime, 0);
@@ -231,8 +217,8 @@ public class PlayerControl : MonoBehaviour
 			if (!isGrounded)
 				velocity = velocity + new Vector2(-velocity.x * airFriction * Time.deltaTime, 0);
 
-			if ((oldXVel < 0 && velocity.x > 0) && (oldXVel > 0 && velocity.x < 0))
-				velocity = new Vector2(0, velocity.y);
+			// if ((oldXVel < 0 && velocity.x > 0) && (oldXVel > 0 && velocity.x < 0))
+			// 	velocity = new Vector2(0, velocity.y);
 
 		}
 
@@ -240,24 +226,12 @@ public class PlayerControl : MonoBehaviour
 		{
 			Debug.Log("Going against wall");
 			if (velocity.y < -frictionSlideTargetSpeed)
-				velocity = new Vector2(0, velocity.y + (-velocity.y * frictionSlideMultiplier * Time.deltaTime));
+				velocity = new Vector2(velocity.x, velocity.y + (-velocity.y * frictionSlideMultiplier * Time.deltaTime));
 		}
 
 		//Limit velocity if over max
 		if (Mathf.Abs(velocity.x) > maxSpeed)
 			velocity.x = Mathf.Clamp(velocity.x,-1f,1f) * maxSpeed;
-
-
-		//In case character seems to be stuck for a while
-		if (absModifier.x > 0.05f && velocity.magnitude <0.01f)
-		{
-			Debug.Log("might need to force move");
-			forceMoveTimer += delta;
-			if (forceMoveTimer > 0.25f)
-				ForceMove(); //Applies transform movement instead of rigidbody
-		}
-		else
-			forceMoveTimer = 0;
 	}
 
 	private void FixedUpdate()
@@ -285,20 +259,6 @@ public class PlayerControl : MonoBehaviour
 
 	}
 
-	private void ForceMove()		// Called if player seems to be stuck
-	{
-		//Ignore force move in cases where player tries to get inside walls.
-		if (((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight) || (jumpInput && isRoofed)) && !(isWalled && isRoofed && isGrounded))
-			return;
-
-		if ((isWalled && isGrounded) || (isRoofed && isGrounded))
-		{
-			Debug.LogWarning("Force Move");
-			Vector3 dir = new Vector3(inputModifier.normalized.x, jumpInput? 0.1f : 0.0f, 0);
-			transform.position = Vector2.Lerp(transform.position, transform.position+dir, delta);
-		}
-	}
-
 	private void JumpAndFloat()
 	{
 		if (!jumpInput)
@@ -314,10 +274,8 @@ public class PlayerControl : MonoBehaviour
 			return;
 		}
 
-			Debug.Log("jump input yo");
 		if (isGrounded && canJump)
 		{
-			Debug.Log("JUMP");
 			velocity = velocity + Vector2.up * jumpForce;
 			jumpTimer = 0;
 			canJump = false;
@@ -326,7 +284,6 @@ public class PlayerControl : MonoBehaviour
 		}
 		else if (isWalled && canJump)
 		{
-			int wallHitDirection = wallLeft ? 1 : -1;
 			Vector2 force;
 			force.x = (wallLeft ? 1f : 0f) + (wallRight ? -1f : 0f);
 			force.x *= jumpForce;
@@ -337,22 +294,24 @@ public class PlayerControl : MonoBehaviour
 			canJump = false;
 			canFloat = true;
 			prevJumpInput = true;
+			Debug.Log(velocity);
 		}
 
-
+		//Canfloat allows player to make higher jumps by holding jump button.
 		if (canFloat && jumpInput)
 		{
 			jumpTimer += delta;
-			if (jumpTimer < jumpDuration /1000)
+			if (jumpTimer < jumpDuration)
 			{
-				Debug.Log("Floaty mc floater");
 				if (velocity.y < targetJumpSpeed)
-					velocity = velocity + Vector2.up * jumpForce;
-
-				// velocity = new Vector2 (velocity.x, _canFloatUp ? jumpForce : 0);
+					velocity = new Vector2(velocity.x, velocity.y + jumpForce);
+				if (velocity.y > targetJumpSpeed)
+					velocity = new Vector2(velocity.x, targetJumpSpeed);
 			}
 			else
+			{
 				canFloat = false;
+			}
 
 		}
 	}

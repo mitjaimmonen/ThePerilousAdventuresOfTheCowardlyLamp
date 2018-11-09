@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable {
 
+	[Tooltip("Reference to gameObject containing player mesh & textures.")]
 	public GameObject visuals;
+	[Tooltip("Max distance from where player attracts items.")]
+	public float magnetDistance;
 
-	[HideInInspector]public PlayerControl controller;
+	[HideInInspector]public PlayerControl control;
 	[HideInInspector]public PlayerCrosshair crosshair;
 	[HideInInspector]public PlayerDashAttack dashAttack;
 	[HideInInspector]public PlayerProjectileAttack projectileAttack;
+
+
+	public Rigidbody2D rb
+	{
+		get { return GetComponent<Rigidbody2D>(); }
+	}
 
 	private int shardItemCount = 0;
 	public int ShardItemCount
@@ -24,7 +33,7 @@ public class Player : MonoBehaviour, IDamageable {
 
 	// Use this for initialization
 	private void Awake () {
-		controller = GetComponent<PlayerControl>();
+		control = GetComponent<PlayerControl>();
 		crosshair = GetComponent<PlayerCrosshair>();
 		dashAttack = GetComponent<PlayerDashAttack>();
 		projectileAttack = GetComponent<PlayerProjectileAttack>();
@@ -34,7 +43,7 @@ public class Player : MonoBehaviour, IDamageable {
 	{
 		//Decides which script updates run first.
 		crosshair.PlayerUpdate();
-		controller.PlayerUpdate();
+		control.PlayerUpdate();
 		projectileAttack.PlayerUpdate();
 		dashAttack.PlayerUpdate();
 	}

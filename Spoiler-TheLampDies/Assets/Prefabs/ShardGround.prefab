@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba541a0149cf8b4583d726d1ae65f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shardItemPrefab: {fileID: 1022311064834442, guid: b8a00d824a1d5774592e0b474e6992b0,
+  shardItemPrefab: {fileID: 114298759924144510, guid: b8a00d824a1d5774592e0b474e6992b0,
     type: 2}
   getHitPS: {fileID: 198014799088443722}
   shardAmount: 5

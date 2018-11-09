@@ -9,6 +9,8 @@ public struct ProjectileData
 	public Vector2 startPosition;
 	[HideInInspector]
 	public Vector2 direction;
+	[HideInInspector]
+	public Vector2 playerSpeed;
 	public float damage;
 	public Vector2 minMaxLifetime;
 	public Vector2 startToEndSpeed;
@@ -27,6 +29,7 @@ public class Projectile : MonoBehaviour {
 	public ProjectileData data;
 	
 	
+	private Vector2 rbVelocityEffect;
 	private Vector3 origSize;
 	private float speed;
 	private float size;
@@ -89,7 +92,6 @@ public class Projectile : MonoBehaviour {
 			//Checks that all particles are dead before deactivating
 			if ((!trailPS || !trailPS.IsAlive()) && (!destroyPS || !destroyPS.IsAlive()))
 			{
-				Debug.Log("Setting projectile inactive");
 				active = false;
 				stopping = false;
 			}
@@ -103,6 +105,8 @@ public class Projectile : MonoBehaviour {
 			//Calculate speed and size with min-max values relative to time.
 			speed = Mathf.Lerp(data.startToEndSpeed.x, data.startToEndSpeed.y, lerpTime);
 			size = Mathf.Lerp(data.startToEndSize.x, data.startToEndSize.y, lerpTime);
+			//Velocity effect is the added speed of player at the time of shot.
+			rbVelocityEffect = Vector2.Lerp(data.playerSpeed, Vector2.zero, lerpTime);
 
 			//Rotate towards movement direction.
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, data.direction), Time.deltaTime * 15f);
@@ -112,7 +116,6 @@ public class Projectile : MonoBehaviour {
 			if (trailPS)
 				trailMain.startSizeMultiplier = trailPSOrigsize * size;
 			
-			rb.velocity = data.direction * speed;
 		}
 
 	}
@@ -122,6 +125,14 @@ public class Projectile : MonoBehaviour {
 		if (active && !stopping)
 		{
 			//Apply current speed in physics update.
+			var vel = speed * data.direction;
+
+			//Add player speed effect into velocity if it is helpful.
+			if ((rbVelocityEffect + vel).magnitude > vel.magnitude)
+				rb.velocity = (data.direction * speed) + rbVelocityEffect;
+			else
+				rb.velocity = data.direction * speed;
+
 		}
 	}
 	void OnCollisionEnter2D(Collision2D col)

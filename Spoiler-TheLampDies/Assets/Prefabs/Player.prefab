@@ -297,7 +297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 1569846853809066}
-  controller: {fileID: 0}
+  magnetDistance: 3.5
+  control: {fileID: 0}
   crosshair: {fileID: 0}
   dashAttack: {fileID: 0}
   projectileAttack: {fileID: 0}
@@ -318,11 +319,12 @@ MonoBehaviour:
   projectileData:
     startPosition: {x: 0, y: 0}
     direction: {x: 0, y: 0}
+    playerSpeed: {x: 0, y: 0}
     damage: 1
     minMaxLifetime: {x: 2, y: 3}
     startToEndSpeed: {x: 10, y: 0}
     startToEndSize: {x: 1, y: 0.2}
-    easing: 5
+    easing: 2
     reflectiveLayers:
       serializedVersion: 2
       m_Bits: 512
@@ -365,7 +367,7 @@ MonoBehaviour:
   maxSpeed: 7
   groundAcceleration: 60
   airAcceleration: 40
-  wallStickTime: 0.05
+  wallStickTime: 0.5
   frictionSlideTargetSpeed: 3
   frictionSlideMultiplier: 0.85
   groundFriction: 20
