@@ -43,7 +43,10 @@ public class Player : MonoBehaviour, IDamageable {
 	{
 
 	}
+	public void GetHit(float dmg, Vector2 pos)
+	{
 
+	}
 	public void CollectShardItem()
 	{
 		++ShardItemCount;

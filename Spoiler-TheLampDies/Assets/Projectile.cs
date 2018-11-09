@@ -5,12 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public struct ProjectileData
 {
+	[HideInInspector]
 	public Vector2 startPosition;
+	[HideInInspector]
 	public Vector2 direction;
 	public float damage;
-	public float lifetime;
-	public float startSpeed;
-	public float endSpeed;
+	public Vector2 minMaxLifetime;
+	public Vector2 startToEndSpeed;
+	public Vector2 startToEndSize;
+	public EasingCurves.Curve easing;
 	public LayerMask reflectiveLayers;
 	public LayerMask collidingLayers;
 
@@ -19,17 +22,34 @@ public struct ProjectileData
 public class Projectile : MonoBehaviour {
 
 	public GameObject visuals;
-	public ParticleSystem trailPS;
-	public ParticleSystem destroyPS;
 	public Collider2D col;
+	[HideInInspector]
 	public ProjectileData data;
 	
 	
 	private Vector3 origSize;
-	private float currentSpeed;
-	private float currentSizeMultiplier;
-	private float timeAlive;
+	private float speed;
+	private float size;
+	private float lifetime;
+	private float startTime;
+	private float lerpTime;
 	private bool active;
+	private bool stopping;
+
+
+	#region ParticleSystems
+	public ParticleSystem trailPS;
+	public ParticleSystem destroyPS;
+	private float destroyPSOrigsize;
+	private float trailPSOrigsize;
+	private ParticleSystem.MainModule destroyMain;
+	private ParticleSystem.MainModule trailMain;
+
+
+	#endregion
+
+
+
 	public bool IsActive
 	{
 		get { return active; }
@@ -44,47 +64,78 @@ public class Projectile : MonoBehaviour {
 			rb = gameObject.AddComponent<Rigidbody2D>();
 		
 		origSize = transform.localScale;
+
+		if (destroyPS)
+		{
+			destroyMain = destroyPS.main;
+			destroyPSOrigsize = destroyMain.startSizeMultiplier;
+		}
+		if (trailPS)
+		{
+			trailMain = trailPS.main;
+			trailPSOrigsize = trailMain.startSizeMultiplier;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		timeAlive += Time.deltaTime;
-		if (timeAlive > data.lifetime)
+		//If lifetime reached, start deactivation process
+		if (active && !stopping && startTime + lifetime < Time.time)
 			Deactivate();
 		
-		if (active)
+		if (stopping)
 		{
-			currentSizeMultiplier = Mathf.Clamp01(1f- (timeAlive / data.lifetime));
-			currentSpeed = Mathf.Lerp(data.startSpeed, data.endSpeed, timeAlive / data.lifetime);
+			//Checks that all particles are dead before deactivating
+			if ((!trailPS || !trailPS.IsAlive()) && (!destroyPS || !destroyPS.IsAlive()))
+			{
+				Debug.Log("Setting projectile inactive");
+				active = false;
+				stopping = false;
+			}
+		}
+		
+		if (active && !stopping)
+		{
+			//Calculate current lerp with easing applied to lifetime.
+			lerpTime = EasingCurves.Easing((Time.time-startTime) / lifetime, data.easing);
 
+			//Calculate speed and size with min-max values relative to time.
+			speed = Mathf.Lerp(data.startToEndSpeed.x, data.startToEndSpeed.y, lerpTime);
+			size = Mathf.Lerp(data.startToEndSize.x, data.startToEndSize.y, lerpTime);
+
+			//Rotate towards movement direction.
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, data.direction), Time.deltaTime * 15f);
-			transform.localScale = origSize * currentSizeMultiplier;
+
+			//Set sizes.
+			transform.localScale = origSize * size;
+			if (trailPS)
+				trailMain.startSizeMultiplier = trailPSOrigsize * size;
+			
+			rb.velocity = data.direction * speed;
 		}
 
 	}
 
 	void FixedUpdate()
 	{
-		if (active)
+		if (active && !stopping)
 		{
 			//Apply current speed in physics update.
-			rb.velocity = data.direction * currentSpeed;
 		}
 	}
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		if (!active) //Should not do anything if not active
+		if (!active || stopping) //Should not do anything if not active
 			return;
 
 		//The reflective layers bounce projectile.
 		if (data.reflectiveLayers == (data.reflectiveLayers | (1 << col.gameObject.layer)))
 		{
 			var newDir = Vector2.Reflect(data.direction, col.contacts[0].normal);
-			Debug.Log("Reflecting old dir: " + data.direction.normalized + ", new dir: " + newDir.normalized);
 			transform.up = newDir.normalized;
 			data.direction = newDir.normalized;
-			rb.velocity = data.direction * currentSpeed;
+			rb.velocity = data.direction * speed;
 		}
 		//Colliding layers destroy projectile. Enemies should be in colliding layers as well.
 		if (data.collidingLayers == (data.collidingLayers | (1 << col.gameObject.layer)))
@@ -92,16 +143,19 @@ public class Projectile : MonoBehaviour {
 			IDamageable iDmg = col.gameObject.GetComponent<IDamageable>();
 			if (iDmg != null)
 			{
-				iDmg.GetHit(data.damage);
+				iDmg.GetHit(data.damage, col.contacts[0].point);
 			}
-			Deactivate();
+			GameMaster.Instance.CameraHandler.CameraShake.StartShake(speed*data.damage*0.02f, 10f,EasingCurves.Curve.easeOut, 0.5f, 0);
+			BlowUp();
 		}
 	}
 
 	public void Activate()
 	{
+		stopping = false;
 		active = true;
-		timeAlive = 0;
+		startTime = Time.time;
+		lifetime = Random.Range(data.minMaxLifetime.x,data.minMaxLifetime.y);
 		rb.simulated = true;
 		col.enabled = true;
 		visuals.SetActive(true);
@@ -113,14 +167,23 @@ public class Projectile : MonoBehaviour {
 			trailPS.Play();	
 	}
 
+	public void BlowUp()
+	{
+
+		if (destroyPS)
+		{
+			destroyMain.startSizeMultiplier = destroyPSOrigsize * size;
+			destroyPS.Play();
+		}
+		Deactivate();
+	}
+
 	public void Deactivate()
 	{
 		
 		if (trailPS)
 			trailPS.Stop();
-		if (destroyPS)
-			destroyPS.Play();
-		active = false;
+		stopping = true;
 		col.enabled = false;
 		visuals.SetActive(false);
 		rb.velocity = Vector2.zero;

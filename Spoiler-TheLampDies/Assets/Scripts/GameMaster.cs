@@ -54,6 +54,21 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+	private CameraHandler cameraHandler;
+	public CameraHandler CameraHandler
+	{
+		get
+		{
+			if (!cameraHandler)
+			{
+				var temp = GameObject.FindGameObjectWithTag("MainCamera");
+				if (temp)
+					cameraHandler = temp.GetComponentInParent<CameraHandler>();
+			}
+			return cameraHandler;
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {
 		

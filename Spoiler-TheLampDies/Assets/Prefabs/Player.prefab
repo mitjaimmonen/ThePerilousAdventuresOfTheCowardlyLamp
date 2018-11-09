@@ -319,9 +319,10 @@ MonoBehaviour:
     startPosition: {x: 0, y: 0}
     direction: {x: 0, y: 0}
     damage: 1
-    lifetime: 3
-    startSpeed: 10
-    endSpeed: 0
+    minMaxLifetime: {x: 2, y: 3}
+    startToEndSpeed: {x: 10, y: 0}
+    startToEndSize: {x: 1, y: 0.2}
+    easing: 5
     reflectiveLayers:
       serializedVersion: 2
       m_Bits: 512
@@ -330,7 +331,7 @@ MonoBehaviour:
       m_Bits: 9216
   projectilePrefab: {fileID: 114451059809196568, guid: e89369928004d8e48bc9bf1cb84a0d76,
     type: 2}
-  poolProjectileAmount: 50
+  maxProjectileAmount: 50
   growPool: 0
 --- !u!114 &114073826598699790
 MonoBehaviour:
@@ -361,10 +362,10 @@ MonoBehaviour:
   targetJumpSpeed: 6
   wallJumpHeightMultiplier: 1
   jumpDuration: 1
-  maxSpeed: 5
-  groundAcceleration: 50
+  maxSpeed: 7
+  groundAcceleration: 60
   airAcceleration: 40
-  wallStickTime: 0.1
+  wallStickTime: 0.05
   frictionSlideTargetSpeed: 3
   frictionSlideMultiplier: 0.85
   groundFriction: 20

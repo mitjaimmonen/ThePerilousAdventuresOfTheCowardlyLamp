@@ -17,7 +17,7 @@ public class PlayerProjectileAttack : MonoBehaviour {
 
 	[Header("Pool")]
 	public Projectile projectilePrefab;
-	public int poolProjectileAmount;
+	public int maxProjectileAmount;
 	public bool growPool;
 
 	private Transform poolParent;
@@ -42,7 +42,7 @@ public class PlayerProjectileAttack : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		player = GetComponent<Player>();
-		for (int i = 0; i < poolProjectileAmount; i++)
+		for (int i = 0; i < maxProjectileAmount; i++)
 		{
 			CreateProjectile();
 		}
@@ -86,6 +86,7 @@ public class PlayerProjectileAttack : MonoBehaviour {
 		else
 		{
 			poolParent = new GameObject().transform;
+			poolParent.gameObject.name = "Projectile Pool";
 			temp.transform.parent = poolParent;
 		}
 
@@ -94,15 +95,36 @@ public class PlayerProjectileAttack : MonoBehaviour {
 	Projectile GetProjectile()
 	{
 		Projectile temp;
-		if (projectiles[index].IsActive && (growPool || projectiles.Count < poolProjectileAmount))
+
+		//Ideally this for-loop will only go once, but in case there aren't enough projectiles it will loop through the whole list.
+		for (int i = 0; i < projectiles.Count; i++)
 		{
+			if (!projectiles[Index].IsActive)
+			{
+				temp = projectiles[Index];
+				++Index; //Go to next index already to avoid unnecessary looping next time.
+				return temp;
+			}
+			else
+			{
+				++Index; //Continues looping with new index
+			}
+		}
+
+		//creates new projectile into pool if all others are still active and pool is allowed to grow.
+		if (projectiles[index].IsActive && (growPool || projectiles.Count < maxProjectileAmount))
+		{
+			Debug.Log("Creating new projectile.");
 			temp = CreateProjectile();
 			Index = projectiles.Count-1;
 		}
 		else
 		{
-			temp = projectiles[index];
+			//Deactivates an active projectile and puts it into re-use.
 			++Index;
+			Debug.LogWarning("Using existing and active projectile.");
+			temp = projectiles[index];
+			temp.Deactivate();
 		}
 		
 		return temp;

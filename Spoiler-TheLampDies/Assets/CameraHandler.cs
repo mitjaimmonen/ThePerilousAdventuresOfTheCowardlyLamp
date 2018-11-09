@@ -10,6 +10,14 @@ public class CameraHandler : MonoBehaviour {
 
 	private Vector3 pos;
 
+	public CameraShake CameraShake
+	{
+		get 
+		{
+			return GetComponent<CameraShake>();
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		
