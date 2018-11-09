@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShardGround : MonoBehaviour {
+public class ShardGround : MonoBehaviour, IDamageable {
 
 	public GameObject shardItemPrefab;
 	public int shardAmount;
@@ -25,8 +25,9 @@ public class ShardGround : MonoBehaviour {
 		//Spawn shards
 		for (int i = 0; i < shardAmount; i++)
 		{
-			Vector2 pos = transform.position;
-			pos += Random.insideUnitCircle*2f; // Adds some randomization.
+			Vector3 pos = transform.position;
+			pos += Random.insideUnitSphere*2f; // Adds some randomization.
+			pos.z = 0;
 			Instantiate(shardItemPrefab, pos, Random.rotation);
 		}
 

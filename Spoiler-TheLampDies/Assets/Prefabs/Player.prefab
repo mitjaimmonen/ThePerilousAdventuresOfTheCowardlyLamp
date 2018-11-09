@@ -312,25 +312,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea752449ee29354cabd4e61edc34318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accuracy: 0.5
-  cooldown: 0.05
-  amountPerShot: 2
+  accuracy: 0.75
+  cooldown: 0.025
+  amountPerShot: 1
   projectileData:
     startPosition: {x: 0, y: 0}
     direction: {x: 0, y: 0}
-    damage: 5
+    damage: 1
     lifetime: 3
     startSpeed: 10
     endSpeed: 0
     reflectiveLayers:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 512
     collidingLayers:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 9216
   projectilePrefab: {fileID: 114451059809196568, guid: e89369928004d8e48bc9bf1cb84a0d76,
     type: 2}
-  poolProjectileAmount: 10
+  poolProjectileAmount: 50
   growPool: 0
 --- !u!114 &114073826598699790
 MonoBehaviour:

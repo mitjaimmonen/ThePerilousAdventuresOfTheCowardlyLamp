@@ -18,7 +18,7 @@ public class GameMaster : MonoBehaviour {
     public static GameMaster Instance
     {
         get
-        {
+        {			
             return _instance;
         }
 	}
@@ -36,6 +36,21 @@ public class GameMaster : MonoBehaviour {
 					player = temp.GetComponent<Player>();
 			}
 			return player;
+		}
+	}
+
+	private GameCanvas gameCanvas;
+	public GameCanvas GameCanvas
+	{
+		get
+		{
+			if (!gameCanvas)
+			{
+				var temp = GameObject.FindGameObjectWithTag("MainCanvas");
+				if (temp)
+					gameCanvas = temp.GetComponent<GameCanvas>();
+			}
+			return gameCanvas;
 		}
 	}
 

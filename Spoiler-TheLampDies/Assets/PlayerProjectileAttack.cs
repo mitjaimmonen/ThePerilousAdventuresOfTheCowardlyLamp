@@ -19,6 +19,8 @@ public class PlayerProjectileAttack : MonoBehaviour {
 	public Projectile projectilePrefab;
 	public int poolProjectileAmount;
 	public bool growPool;
+
+	private Transform poolParent;
 	private List<Projectile> projectiles = new List<Projectile>();
 	private Projectile currentProjectile;
 	private int index;
@@ -78,6 +80,14 @@ public class PlayerProjectileAttack : MonoBehaviour {
 		Projectile temp = Instantiate(projectilePrefab, Vector2.zero, Quaternion.identity);
 		temp.Deactivate();
 		projectiles.Add(temp);
+
+		if (poolParent)
+			temp.transform.parent = poolParent;
+		else
+		{
+			poolParent = new GameObject().transform;
+			temp.transform.parent = poolParent;
+		}
 
 		return temp;
 	}

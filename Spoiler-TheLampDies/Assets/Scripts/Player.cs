@@ -11,6 +11,17 @@ public class Player : MonoBehaviour, IDamageable {
 	[HideInInspector]public PlayerDashAttack dashAttack;
 	[HideInInspector]public PlayerProjectileAttack projectileAttack;
 
+	private int shardItemCount = 0;
+	public int ShardItemCount
+	{
+		get { return shardItemCount; }
+		set
+		{
+			shardItemCount = value;
+			GameMaster.Instance.GameCanvas.HudCanvas.UpdateItemCount();
+		}
+	}
+
 	// Use this for initialization
 	private void Awake () {
 		controller = GetComponent<PlayerControl>();
@@ -31,6 +42,11 @@ public class Player : MonoBehaviour, IDamageable {
 	public void GetHit(float dmg)
 	{
 
+	}
+
+	public void CollectShardItem()
+	{
+		++ShardItemCount;
 	}
 
 }
