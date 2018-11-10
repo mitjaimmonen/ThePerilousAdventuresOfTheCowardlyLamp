@@ -21,7 +21,7 @@ public struct ProjectileData
 
 
 }
-public class Projectile : MonoBehaviour {
+public class Projectile : MonoBehaviour, IDamageable {
 
 	public GameObject visuals;
 	public Collider2D col;
@@ -115,16 +115,9 @@ public class Projectile : MonoBehaviour {
 			transform.localScale = origSize * size;
 			if (trailPS)
 				trailMain.startSizeMultiplier = trailPSOrigsize * size;
-			
-		}
 
-	}
 
-	void FixedUpdate()
-	{
-		if (active && !stopping)
-		{
-			//Apply current speed in physics update.
+			//Apply current speed.
 			var vel = speed * data.direction;
 
 			//Add player speed effect into velocity if it is helpful.
@@ -132,9 +125,10 @@ public class Projectile : MonoBehaviour {
 				rb.velocity = (data.direction * speed) + rbVelocityEffect;
 			else
 				rb.velocity = data.direction * speed;
-
 		}
+
 	}
+
 	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (!active || stopping) //Should not do anything if not active
@@ -176,6 +170,15 @@ public class Projectile : MonoBehaviour {
 
 		if (trailPS)
 			trailPS.Play();	
+	}
+
+	public void GetHit(float dmg)
+	{
+		BlowUp();
+	}
+	public void GetHit(float dmg, Vector2 pos)
+	{
+		BlowUp();
 	}
 
 	public void BlowUp()

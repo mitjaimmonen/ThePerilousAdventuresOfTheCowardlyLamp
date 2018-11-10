@@ -6,6 +6,7 @@ public class CameraHandler : MonoBehaviour {
 
 	public Transform targetTrans;
 	public float distance;
+	public float offsetV;
 	public float lerpSpeed;
 
 	private Vector3 pos;
@@ -28,6 +29,7 @@ public class CameraHandler : MonoBehaviour {
 		if (targetTrans)
 		{
 			pos =  targetTrans.position - Vector3.forward*distance;
+			pos.y += offsetV;
 			transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime*lerpSpeed);
 		}
 	}

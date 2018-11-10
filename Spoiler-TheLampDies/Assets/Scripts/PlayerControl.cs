@@ -7,8 +7,6 @@ public class PlayerControl : MonoBehaviour
 	public LayerMask groundLayerMask;
 	public float jumpForce = 8f;
 	public float targetJumpSpeed = 6f;
-
-	[Range(0f,1f)]
 	public float wallJumpHeightMultiplier = 1f;
 	public float jumpDuration;
 	public float maxSpeed = 10f;
@@ -18,7 +16,7 @@ public class PlayerControl : MonoBehaviour
 	public float frictionSlideTargetSpeed = 1f;
 	public float frictionSlideMultiplier = 0.85f;
 	public float groundFriction = 1f;
-	public float airFriction = 1f;
+	public Vector2 airFriction;
 	public float visualsRotAngle;
 
 
@@ -176,8 +174,9 @@ public class PlayerControl : MonoBehaviour
 			HandleKeyInput();
 		}
 		HandleMoving();
+		HandleJumping();
+		ApplyTransform();
 		RotateVisuals();
-		JumpAndFloat();
 	}
 
 	private void HandleKeyInput()
@@ -215,16 +214,13 @@ public class PlayerControl : MonoBehaviour
 				velocity = velocity + new Vector2(-velocity.x * groundFriction * Time.deltaTime, 0);
 
 			if (!isGrounded)
-				velocity = velocity + new Vector2(-velocity.x * airFriction * Time.deltaTime, 0);
-
-			// if ((oldXVel < 0 && velocity.x > 0) && (oldXVel > 0 && velocity.x < 0))
-			// 	velocity = new Vector2(0, velocity.y);
+				velocity = velocity + new Vector2(-velocity.x * airFriction.x * Time.deltaTime, 0);
 
 		}
 
 		if ((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight))
 		{
-			Debug.Log("Going against wall");
+			//Applies wall friction when pushing against wall and falling.
 			if (velocity.y < -frictionSlideTargetSpeed)
 				velocity = new Vector2(velocity.x, velocity.y + (-velocity.y * frictionSlideMultiplier * Time.deltaTime));
 		}
@@ -234,32 +230,7 @@ public class PlayerControl : MonoBehaviour
 			velocity.x = Mathf.Clamp(velocity.x,-1f,1f) * maxSpeed;
 	}
 
-	private void FixedUpdate()
-	{
-		rb.velocity = velocity;
-	}
-
-
-	private void RotateVisuals()
-	{
-		if (Mathf.Approximately(velocity.x, 0))
-			//Apply rotation with slerp to smooth it out
-			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,0), Time.deltaTime*5f);
-		else
-		{
-			//Rotation amount according to current speed.
-			float rot = (Mathf.Abs(velocity.x)/maxSpeed) * visualsRotAngle;
-			//Rotation direction from velocity.
-			rot *= velocity.x > 0 ? -1 : 1;
-
-			//Apply rotation with slerp to smooth it out
-			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,rot), Time.deltaTime*5f);
-
-		}
-
-	}
-
-	private void JumpAndFloat()
+	private void HandleJumping()
 	{
 		if (!jumpInput)
 		{
@@ -269,7 +240,7 @@ public class PlayerControl : MonoBehaviour
 			if (velocity.y > 0)
 			{
 				//Slows down upwards movement
-				velocity = velocity + new Vector2(0, -velocity.y * airFriction * Time.deltaTime);
+				velocity = velocity + new Vector2(0, -velocity.y * airFriction.y * Time.deltaTime);
 			}
 			return;
 		}
@@ -314,5 +285,28 @@ public class PlayerControl : MonoBehaviour
 			}
 
 		}
+	}
+	private void RotateVisuals()
+	{
+		if (Mathf.Approximately(velocity.x, 0))
+			//Apply rotation with slerp to smooth it out
+			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,0), Time.deltaTime*5f);
+		else
+		{
+			//Rotation amount according to current speed.
+			float rot = (Mathf.Abs(velocity.x)/maxSpeed) * visualsRotAngle;
+			//Rotation direction from velocity.
+			rot *= velocity.x > 0 ? -1 : 1;
+
+			//Apply rotation with slerp to smooth it out
+			player.visuals.transform.localRotation = Quaternion.Slerp(player.visuals.transform.localRotation, Quaternion.Euler(0,0,rot), Time.deltaTime*5f);
+
+		}
+
+	}
+
+	private void ApplyTransform()
+	{
+		rb.velocity = velocity;
 	}
 }

@@ -49,7 +49,7 @@ public class ShardGround : MonoBehaviour, IDamageable {
 		for (int i = 0; i < shardAmount; i++)
 		{
 			Vector3 pos = transform.position;
-			pos += Random.insideUnitSphere*2f; // Adds some randomization.
+			pos += Random.insideUnitSphere; // Adds some randomization.
 			pos.z = 0;
 			var temp = Instantiate(shardItemPrefab, pos, Random.rotation);
 			temp.Player = player;

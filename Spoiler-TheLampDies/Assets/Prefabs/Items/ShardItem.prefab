@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 58651931109356276}
   - component: {fileID: 50926406861032504}
   - component: {fileID: 114298759924144510}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ShardItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 4638446013207908}
   - component: {fileID: 33567488382864994}
   - component: {fileID: 23790114095310620}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: New_Game_Object_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4425699196375152}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Shard Item Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4530109289407558}
   - component: {fileID: 33455535694314012}
   - component: {fileID: 23481048684584864}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: New_Game_Object_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,8 +100,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588660526367224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5507, y: -1.2104, z: -0.25333}
-  m_LocalScale: {x: 0.05821894, y: 0.05821894, z: 0.05821894}
+  m_LocalPosition: {x: -1.133, y: -0.825, z: -0.2269}
+  m_LocalScale: {x: 0.040957022, y: 0.040957022, z: 0.040957022}
   m_Children:
   - {fileID: 4638446013207908}
   - {fileID: 4530109289407558}
@@ -266,7 +266,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.29, y: 0.88}
+  m_Size: {x: 0.25, y: 0.6}
   m_Direction: 0
 --- !u!114 &114298759924144510
 MonoBehaviour:

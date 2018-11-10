@@ -69,6 +69,19 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+	private PostProcessingHandler postProcessingHandler;
+	public PostProcessingHandler PostProcessingHandler
+	{
+		get 
+		{
+			if (!postProcessingHandler)
+			{
+				postProcessingHandler = CameraHandler.GetComponent<PostProcessingHandler>();
+			}
+			return postProcessingHandler;
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {
 		
