@@ -429,6 +429,11 @@ Prefab:
       propertyPath: m_Name
       value: ShardGroundBad (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114464490451099178, guid: a50acceef0719774ba37abcbf2874cef,
+        type: 2}
+      propertyPath: damage
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a50acceef0719774ba37abcbf2874cef, type: 2}
   m_IsPrefabAsset: 0
@@ -844,22 +849,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 226541463}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &339259315 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1593844630906490, guid: 2a9df54c60812de45be7593e9e327229,
-    type: 2}
-  m_PrefabInternal: {fileID: 376324418}
---- !u!114 &339259319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 339259315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cf60fe5bc0c9334596cf0f673896e08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &361804703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,11 +1047,6 @@ Prefab:
       propertyPath: targetTrans
       value: 
       objectReference: {fileID: 718115584}
-    - target: {fileID: 114227495689090828, guid: 2a9df54c60812de45be7593e9e327229,
-        type: 2}
-      propertyPath: offsetV
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a9df54c60812de45be7593e9e327229, type: 2}
   m_IsPrefabAsset: 0
@@ -2021,11 +2005,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114624413463345098, guid: 96438248a00ab18479acc8d338cc3f63,
-        type: 2}
-      propertyPath: airFriction.x
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96438248a00ab18479acc8d338cc3f63, type: 2}
   m_IsPrefabAsset: 0
@@ -2403,6 +2382,11 @@ Prefab:
     - target: {fileID: 1264015152103406, guid: a50acceef0719774ba37abcbf2874cef, type: 2}
       propertyPath: m_Name
       value: ShardGroundBad (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114464490451099178, guid: a50acceef0719774ba37abcbf2874cef,
+        type: 2}
+      propertyPath: damage
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a50acceef0719774ba37abcbf2874cef, type: 2}
@@ -7088,6 +7072,11 @@ Prefab:
     - target: {fileID: 4926013492510984, guid: a50acceef0719774ba37abcbf2874cef, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.8720001
+      objectReference: {fileID: 0}
+    - target: {fileID: 114464490451099178, guid: a50acceef0719774ba37abcbf2874cef,
+        type: 2}
+      propertyPath: damage
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a50acceef0719774ba37abcbf2874cef, type: 2}

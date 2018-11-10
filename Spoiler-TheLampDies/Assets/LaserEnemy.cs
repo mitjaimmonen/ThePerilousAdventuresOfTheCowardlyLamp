@@ -106,6 +106,7 @@ public class LaserEnemy : MonoBehaviour {
 				if (Idmg != null)
 				{
 					hitTime = Time.time;
+					GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.2f,15f,EasingCurves.Curve.easeOut, 0.5f, 0);
 					Idmg.GetHit(damage, hit2D.point);
 
 					if (laserHitPSPrefab)

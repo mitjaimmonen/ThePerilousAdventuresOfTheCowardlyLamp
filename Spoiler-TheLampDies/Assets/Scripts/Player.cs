@@ -93,6 +93,7 @@ public class Player : MonoBehaviour, IDamageable {
 			takeDamagePS.Play();
 		}
 
+
 		if (CurrentHealth <= 0)
 		{
 			Die();
@@ -116,7 +117,8 @@ public class Player : MonoBehaviour, IDamageable {
 			diePS.Play();
 
 		rb.simulated = false;
-		StartCoroutine(Respawn(0.5f));
+		GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.75f, 2f, EasingCurves.Curve.easeOut, 1f, 0);
+		StartCoroutine(Respawn(1f));
 	}
 
 	private IEnumerator Respawn (float delay)

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
 
-	public Transform targetTrans;
 	public float distance;
 	public float offsetV;
 	public float lerpSpeed;
 
 	private Vector3 pos;
+	private Transform targetTrans;
 
 	public CameraShake CameraShake
 	{
@@ -21,7 +21,7 @@ public class CameraHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		targetTrans = GameMaster.Instance.Player.transform;
 	}
 	
 	// Update is called once per frame

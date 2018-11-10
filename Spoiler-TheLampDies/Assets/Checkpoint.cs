@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour {
 
+	public ParticleSystem activationPS;
 	public Material ActiveCheckpoint;
 	public Transform spawnPos;
 	private Transform visuals;
@@ -26,6 +27,8 @@ public class Checkpoint : MonoBehaviour {
 			//Player spawnposition will be set to this.
 			var player = other.GetComponent<Player>();
 			player.ActivateCheckpoint(this);
+			if (activationPS)
+				activationPS.Play();
 
 			//Set checkpoint material active.
 			var rend = GetComponentInChildren<Renderer>();
