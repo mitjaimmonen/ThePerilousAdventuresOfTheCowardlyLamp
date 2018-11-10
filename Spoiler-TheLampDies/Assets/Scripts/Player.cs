@@ -103,6 +103,12 @@ public class Player : MonoBehaviour, IDamageable {
 		++ShardItemCount;
 	}
 
+	public void ActivateCheckpoint(Checkpoint checkpoint)
+	{
+		spawnPosition = checkpoint.transform.position;
+		CurrentHealth = health;
+	}
+
 	private void Die()
 	{
 		visuals.SetActive(false);

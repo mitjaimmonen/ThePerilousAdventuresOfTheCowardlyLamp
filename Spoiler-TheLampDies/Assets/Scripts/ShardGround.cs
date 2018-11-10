@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ShardGround : MonoBehaviour, IDamageable {
 
+	public bool dealDamage;
+	public float damage;
+
 	public ShardItem shardItemPrefab;
 	public ParticleSystem getHitPS;
 	public int shardAmount;
@@ -57,5 +60,17 @@ public class ShardGround : MonoBehaviour, IDamageable {
 
 		//Destroy object
 		Destroy(this.gameObject);
+	}
+
+	private void OnCollisionEnter2D(Collision2D col)
+	{
+		if (dealDamage)
+		{
+			IDamageable idmg = col.collider.GetComponent<IDamageable>();
+			if (idmg != null)
+			{
+				idmg.GetHit(damage, col.contacts[0].point);
+			}
+		}
 	}
 }
