@@ -49,7 +49,7 @@ public class LaserEnemy : MonoBehaviour {
 			{
 				//Contact particles for constant hits
 				ParticleSystem temp = Instantiate(laserContactPSPrefab, lasers[i].transform.position, lasers[i].transform.rotation);
-				temp.transform.parent = lasers[i].transform;
+				temp.transform.parent = transform;
 				contactPS.Add(temp);
 			}
 
@@ -57,7 +57,7 @@ public class LaserEnemy : MonoBehaviour {
 			{
 				//Hit particles for damageable hits
 				ParticleSystem temp = Instantiate(laserHitPSPrefab, lasers[i].transform.position, lasers[i].transform.rotation);
-				temp.transform.parent = lasers[i].transform;
+				temp.transform.parent = transform;
 				hitPS.Add(temp);
 			}
 		}
@@ -96,7 +96,11 @@ public class LaserEnemy : MonoBehaviour {
 						shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 				}
 				lasers[i].gameObject.SetActive(false);
+				//Stop hit PS because no hits.
+				contactPS[i].Stop();
+				
 				continue;
+
 			}
 
 			//Lasers are positioned to shoot upwards, raycast is up as well.
