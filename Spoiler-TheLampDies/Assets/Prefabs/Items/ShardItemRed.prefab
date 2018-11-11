@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50926406861032504}
   - component: {fileID: 114298759924144510}
   m_Layer: 14
-  m_Name: ShardItem
+  m_Name: ShardItemRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,8 +100,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588660526367224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.133, y: -0.825, z: -0.2269}
-  m_LocalScale: {x: 0.040957022, y: 0.040957022, z: 0.040957022}
+  m_LocalPosition: {x: -1.2956, y: -0.94283, z: -0.23594}
+  m_LocalScale: {x: 0.04685893, y: 0.04685893, z: 0.04685893}
   m_Children:
   - {fileID: 4638446013207908}
   - {fileID: 4530109289407558}
@@ -149,7 +149,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: e603a28bfada9a54f87b69a4be9250bf, type: 2}
+  - {fileID: 2100000, guid: 6ee4a0beffed48d4ca06688b224379a7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -184,7 +184,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: e603a28bfada9a54f87b69a4be9250bf, type: 2}
+  - {fileID: 2100000, guid: 6ee4a0beffed48d4ca06688b224379a7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -279,3 +279,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd877d77653b8843b7799e2dcd5e734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 2

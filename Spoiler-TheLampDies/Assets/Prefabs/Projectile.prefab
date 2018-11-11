@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1098425847668786}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6538, y: -0.5581, z: 1.29}
+  m_LocalPosition: {x: -1.741, y: -0.5581, z: 1.29}
   m_LocalScale: {x: 0.38847464, y: 0.38847464, z: 0.38847464}
   m_Children:
   - {fileID: 4549812614588778}
@@ -129,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1011127595298734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.76, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4557156436298850}
@@ -238,9 +238,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.025}
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.2742145
 --- !u!114 &114451059809196568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,10 +257,12 @@ MonoBehaviour:
   data:
     startPosition: {x: 0, y: 0}
     direction: {x: 0, y: 0}
+    playerSpeed: {x: 0, y: 0}
     damage: 5
     minMaxLifetime: {x: 0, y: 0}
     startToEndSpeed: {x: 0, y: 0}
     startToEndSize: {x: 0, y: 0}
+    easing: 0
     reflectiveLayers:
       serializedVersion: 2
       m_Bits: 0

@@ -11,8 +11,15 @@ Decides when updates get called for some classes.
 
  ******************/
 
+public enum GameState
+{
+	menu,
+	game
+}
+
 public class GameMaster : MonoBehaviour {
 
+	#region Singleton
 
 	private static GameMaster _instance;
     public static GameMaster Instance
@@ -22,7 +29,14 @@ public class GameMaster : MonoBehaviour {
             return _instance;
         }
 	}
+	
+	#endregion
 
+
+	public GameState gameState;
+	public int levelNumber;
+
+	#region  Getters & Setters
 
 	private Player player;
 	public Player Player
@@ -82,8 +96,55 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+	private SceneData currentSceneData;
+	public SceneData CurrentSceneData
+	{
+		get
+		{
+			if (!currentSceneData)
+			{
+				var temp = GameObject.FindGameObjectWithTag("SceneData");
+				if (temp)
+					currentSceneData = temp.GetComponent<SceneData>();
+			}
+			return currentSceneData;
+		}
+	}
+
+	
+	private bool isPaused;
+	public bool IsPaused
+	{
+		get { return isPaused; }
+		set 
+		{
+			isPaused = value;
+			PostProcessingHandler.GamePaused(isPaused);
+			GameCanvas.PauseMenuCanvas.GamePaused(isPaused, IsFinished ? PauseType.won : PauseType.paused);
+			GameCanvas.HudCanvas.GamePaused(isPaused);
+			if (isPaused)
+				Time.timeScale = 0;
+			else
+				Time.timeScale = 1f;
+		}
+	}
+
+	private bool isFinished;
+	public bool IsFinished
+	{
+		get { return isFinished; }
+		set
+		{
+			isFinished = value;
+			if (isFinished)
+				IsPaused = value; //Game pauses if finished.
+		}
+	}
+
+	#endregion
+	
 	// Use this for initialization
-	void Awake () {
+	private void Awake () {
 		
         if (_instance != null && _instance != this)
 		{
@@ -100,19 +161,88 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
-	void Initialize()		//Called on sceneload & awake.
+	private void Initialize()		//Called on sceneload & awake.
 	{
+
+		//Get current scene information
+		if (CurrentSceneData)
+			gameState = CurrentSceneData.gameState;
+
+		//Initialization according to scene.
+		if (gameState == GameState.game)
+		{
+			IsFinished = false;
+			IsPaused = false;
+		}
 	}
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
+	private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
 	{
+
+		
         Initialize();
 	}
 	
 	// Update is called once per frame
 	private void Update ()
 	{
-		//Call updates in other scripts if they should be called after each other.
-		Player.MasterUpdate();
+		if (gameState == GameState.game)
+		{
+			HandleInputs();
+	
+			if (!IsPaused)
+			{
+				//Call updates in other scripts if they should be called after each other.
+				Player.MasterUpdate();
+			}
+		}
+	}
+
+	private void HandleInputs()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			if (!IsFinished)
+				IsPaused = !IsPaused;
+		}
+	}
+
+	public string GetCurrentSceneName()
+	{
+		return SceneManager.GetActiveScene().name;
+	}
+
+	public bool HasScene(string sceneName)
+	{
+		return Application.CanStreamedLevelBeLoaded(sceneName);
+	}
+
+
+	public void LoadLevel(string sceneName)
+	{
+		if (HasScene(sceneName))
+		{
+			SceneManager.LoadScene(sceneName);
+		}
+	}
+
+	public void NextLevel()
+	{
+		levelNumber++;
+        if (HasScene("Level" + levelNumber))
+		    SceneManager.LoadScene("Level" + levelNumber);
+        else
+            SceneManager.LoadScene("MainMenu");
+	}
+
+	public void EndLevel()
+	{
+		IsFinished = true;
+		IsPaused = true;
+
+		PlayerPrefsManager.SetLevel(Mathf.Max(PlayerPrefs.GetInt("Level"), GameMaster.Instance.levelNumber+1));
+		gameCanvas.HudCanvas.GamePaused(IsPaused);
+		gameCanvas.PauseMenuCanvas.GamePaused(IsFinished, PauseType.won);
+		
 	}
 }

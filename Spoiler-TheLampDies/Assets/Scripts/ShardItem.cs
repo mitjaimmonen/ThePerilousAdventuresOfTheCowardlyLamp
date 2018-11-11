@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShardItem : MonoBehaviour {
 
+	public int value = 1;
 	private float maxSpeed = 10f;
 	private Rigidbody2D rb;
 	private Player player;
@@ -43,7 +44,7 @@ public class ShardItem : MonoBehaviour {
 	{
 		if (other.gameObject.GetComponent<Player>())
 		{
-			player.CollectShardItem();
+			player.CollectShardItem(value);
 			Destroy(this.gameObject);
 		}
 	}

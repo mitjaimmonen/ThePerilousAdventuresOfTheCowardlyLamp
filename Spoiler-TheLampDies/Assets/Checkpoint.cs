@@ -7,11 +7,25 @@ public class Checkpoint : MonoBehaviour {
 	public ParticleSystem activationPS;
 	public Material ActiveCheckpoint;
 	public Transform spawnPos;
-	private Transform visuals;
+	public Transform visuals;
+	public TextMesh shardCountText;
+
+
+	private int shardCount = 0;
+	public int ShardCount
+	{
+		get { return shardCount; }
+		set
+		{
+			shardCount = value;
+			SetText();
+		}
+	}
+
 
 	private void Awake()
 	{
-		visuals = GetComponentInChildren<Renderer>().transform;
+		SetText();
 	}
 
 	private void Update()
@@ -19,6 +33,13 @@ public class Checkpoint : MonoBehaviour {
 		visuals.Rotate(new Vector3(0, 20f * Time.deltaTime, 0), Space.World);
 	}
 
+	private void SetText()
+	{
+		if (ShardCount <= 0)
+			shardCountText.text = "";
+		else
+			shardCountText.text = ShardCount.ToString();
+	}
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
@@ -31,7 +52,7 @@ public class Checkpoint : MonoBehaviour {
 				activationPS.Play();
 
 			//Set checkpoint material active.
-			var rend = GetComponentInChildren<Renderer>();
+			var rend = visuals.GetComponentInChildren<Renderer>();
 			rend.material = ActiveCheckpoint;
 		}
 	}

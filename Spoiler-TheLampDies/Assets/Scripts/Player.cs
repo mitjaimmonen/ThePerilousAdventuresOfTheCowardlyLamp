@@ -8,16 +8,21 @@ public class Player : MonoBehaviour, IDamageable {
 	public ParticleSystem diePS; // Reference under player object
 	public ParticleSystem takeDamagePS; // Reference under player object
 	public float magnetDistance; // Max distance from where player attracts items.
-	public float health;
+	public float maxHealth;
+
 	[HideInInspector]public PlayerControl control;
-	[HideInInspector]public PlayerCrosshair crosshair;
 	[HideInInspector]public PlayerDashAttack dashAttack;
 	[HideInInspector]public PlayerProjectileAttack projectileAttack;
 
 
-	private Vector2 spawnPosition;
+	private Checkpoint lastCheckpoint;
+	private Vector2 startPos;
 	private float currentHealth;
+	private int shardItemCount = 0;
 
+
+
+	#region  Getters & Setters
 	public float CurrentHealth
 	{
 		get { return currentHealth; }
@@ -25,15 +30,16 @@ public class Player : MonoBehaviour, IDamageable {
 		{
 			if (value <= 0)
 				currentHealth = 0;
-			if (value > health)
-				currentHealth = health;
+			if (value > maxHealth)
+				currentHealth = maxHealth;
 			else
 				currentHealth = value;
 			
 			if (GameMaster.Instance.PostProcessingHandler)
 			{
-				GameMaster.Instance.PostProcessingHandler.SetSaturationIntensity(currentHealth/health);
-				GameMaster.Instance.PostProcessingHandler.SetVignetteIntensity( 1f -(currentHealth/health));
+				float val = currentHealth/maxHealth;
+				GameMaster.Instance.PostProcessingHandler.SetSaturationIntensity(val);
+				GameMaster.Instance.PostProcessingHandler.SetVignetteIntensity( 1f -val);
 
 			}
 		}
@@ -45,7 +51,6 @@ public class Player : MonoBehaviour, IDamageable {
 		get { return GetComponent<Rigidbody2D>(); }
 	}
 
-	private int shardItemCount = 0;
 	public int ShardItemCount
 	{
 		get { return shardItemCount; }
@@ -57,24 +62,28 @@ public class Player : MonoBehaviour, IDamageable {
 				shardItemCount = value;
 		
 			if (GameMaster.Instance.GameCanvas)
-				GameMaster.Instance.GameCanvas.HudCanvas.UpdateItemCount();
+				GameMaster.Instance.GameCanvas.UpdateItemCount();
 		}
 	}
 
+	#endregion
+
+
 	// Use this for initialization
 	private void Awake () {
-		currentHealth = health;
-		spawnPosition = transform.position;
+		maxHealth = Mathf.Max(1f, maxHealth); // Make sure health is at least 1 
+		currentHealth = maxHealth;
+		startPos = transform.position;
 		control = GetComponent<PlayerControl>();
-		crosshair = GetComponent<PlayerCrosshair>();
 		dashAttack = GetComponent<PlayerDashAttack>();
 		projectileAttack = GetComponent<PlayerProjectileAttack>();
 	}
 
+
+	//GameMaster calls update if game is not paused.
 	public void MasterUpdate()
 	{
 		//Decides which script updates run first.
-		crosshair.PlayerUpdate();
 		control.PlayerUpdate();
 		projectileAttack.PlayerUpdate();
 		dashAttack.PlayerUpdate();
@@ -99,15 +108,16 @@ public class Player : MonoBehaviour, IDamageable {
 			Die();
 		}
 	}
-	public void CollectShardItem()
+	public void CollectShardItem(int value)
 	{
-		++ShardItemCount;
+		ShardItemCount += value;
 	}
 
 	public void ActivateCheckpoint(Checkpoint checkpoint)
 	{
-		spawnPosition = checkpoint.transform.position;
-		CurrentHealth = health;
+		lastCheckpoint = checkpoint;
+		CurrentHealth = maxHealth;
+		checkpoint.ShardCount = ShardItemCount;
 	}
 
 	private void Die()
@@ -126,12 +136,27 @@ public class Player : MonoBehaviour, IDamageable {
 
 		yield return new WaitForSeconds(delay);
 
-		transform.position = spawnPosition;
+		if (lastCheckpoint)
+		{
+			ShardItemCount = lastCheckpoint.ShardCount;
+			transform.position = lastCheckpoint.spawnPos.position;
+		}
+		else
+		{
+			ShardItemCount = 0;
+			transform.position = startPos;
+		}
+		
 		visuals.SetActive(true);
 		rb.simulated = true;
-		CurrentHealth = health;
-		ShardItemCount = ShardItemCount - 100;
+		CurrentHealth = maxHealth;
+		
 
 		yield break;
+	}
+
+	public void FinishLevel()
+	{
+		GameMaster.Instance.IsFinished = true;
 	}
 }

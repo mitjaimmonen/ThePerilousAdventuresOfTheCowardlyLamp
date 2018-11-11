@@ -138,7 +138,6 @@ GameObject:
   - component: {fileID: 114624413463345098}
   - component: {fileID: 50447097632785246}
   - component: {fileID: 70324906842020152}
-  - component: {fileID: 114738244422684970}
   - component: {fileID: 114073826598699790}
   - component: {fileID: 114068202328872374}
   m_Layer: 12
@@ -393,9 +392,8 @@ MonoBehaviour:
   diePS: {fileID: 198020202338459266}
   takeDamagePS: {fileID: 198964901137338636}
   magnetDistance: 3.5
-  health: 10
+  maxHealth: 10
   control: {fileID: 0}
-  crosshair: {fileID: 0}
   dashAttack: {fileID: 0}
   projectileAttack: {fileID: 0}
 --- !u!114 &114068202328872374
@@ -469,19 +467,6 @@ MonoBehaviour:
   groundFriction: 20
   airFriction: {x: 0.5, y: 15}
   visualsRotAngle: 10
---- !u!114 &114738244422684970
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1958480063601006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fd9a493e660d4d42a2c3070eada81f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultCrosshair: {fileID: 0}
-  lockOnCrosshair: {fileID: 0}
 --- !u!198 &198020202338459266
 ParticleSystem:
   m_ObjectHideFlags: 1

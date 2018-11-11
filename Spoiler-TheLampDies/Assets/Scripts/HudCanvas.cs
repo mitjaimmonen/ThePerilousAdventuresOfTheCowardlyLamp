@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HudCanvas : MonoBehaviour {
 
+	public GameObject hudPanel;
 	public Text shardItemsText;
 
 	private void Start()
@@ -16,5 +17,17 @@ public class HudCanvas : MonoBehaviour {
 	{
 		if (shardItemsText)
 			shardItemsText.text = GameMaster.Instance.Player.ShardItemCount.ToString();
+	}
+
+	public void GamePaused(bool state)
+	{
+		if (state)
+		{
+			hudPanel.SetActive(false);
+		}
+		else
+		{
+			hudPanel.SetActive(true);
+		}
 	}
 }

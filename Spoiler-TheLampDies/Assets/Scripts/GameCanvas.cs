@@ -29,4 +29,11 @@ public class GameCanvas : MonoBehaviour {
 			return pauseMenuCanvas;
 		}
 	}
+
+
+	public void UpdateItemCount()
+	{
+		HudCanvas.UpdateItemCount();
+		pauseMenuCanvas.UpdateItemCount();
+	}
 }

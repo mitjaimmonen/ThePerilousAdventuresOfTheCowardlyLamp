@@ -125,6 +125,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 				rb.velocity = (data.direction * speed) + rbVelocityEffect;
 			else
 				rb.velocity = data.direction * speed;
+			Debug.Log("Projectile velocity: " +rb.velocity);
 		}
 
 	}

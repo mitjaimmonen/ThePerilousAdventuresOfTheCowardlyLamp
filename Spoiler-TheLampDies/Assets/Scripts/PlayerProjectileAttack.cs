@@ -58,7 +58,7 @@ public class PlayerProjectileAttack : MonoBehaviour {
 
 	private void Shoot()
 	{
-		var dir = player.crosshair.GetMouseDirectionFromPosition(transform.position).normalized;
+		var dir = GetMouseDirectionFromPosition(transform.position).normalized;
 		dir.y += Random.Range(1-accuracy,-1+accuracy);
 		dir.x += Random.Range(1-accuracy,-1+accuracy);
 		dir.Normalize();
@@ -74,7 +74,15 @@ public class PlayerProjectileAttack : MonoBehaviour {
 		shotTime = Time.time;
 
 	}
-	
+
+	private Vector2 GetMouseDirectionFromPosition (Vector2 pos)
+	{
+		Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z);
+		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(mousePos);
+		Vector2 dir = new Vector2(worldPoint.x - pos.x, worldPoint.y - pos.y);
+
+		return dir;
+	}
 
 	Projectile CreateProjectile()
 	{
