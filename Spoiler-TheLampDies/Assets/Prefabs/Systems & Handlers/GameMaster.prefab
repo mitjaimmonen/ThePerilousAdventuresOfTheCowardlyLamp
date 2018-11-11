@@ -82,6 +82,7 @@ MonoBehaviour:
   laserHitSE: event:/LaserHit
   playerDestroySE: event:/PlayerDestroy
   playerHitSE: event:/PlayerGetHit
+  collectSE: event:/ItemCollect
 --- !u!114 &114934717569008426
 MonoBehaviour:
   m_ObjectHideFlags: 1

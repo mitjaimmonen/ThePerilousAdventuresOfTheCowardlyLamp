@@ -69,49 +69,49 @@ public class SoundMaster : MonoBehaviour {
 
 	public void PlayShoot(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(shootSE, pos);
 	}
 	public void PlayProjectileBounce(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(projectileBounceSE, pos);
 	}
 	public void PlayProjectileDestroy(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(projectileDestroySE, pos);
 	}
 
 	public void PlayShardDestroy(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(shardDestroySE, pos);
 	}
 	public void PlayShardHit(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(shardHitSE, pos);
 	}
 	public void PlayLaserHit(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(laserHitSE, pos);
 	}
 
 	public void PlayPlayerDestroy(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(playerDestroySE, pos);
 	}
 	public void PlayPlayerHit(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(playerHitSE, pos);
 	}
 	public void PlayCollect(Vector2 pos)
 	{
-		if (oneShotTimer + 0.01f < Time.time)
+		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(collectSE, pos);
 	}
 }

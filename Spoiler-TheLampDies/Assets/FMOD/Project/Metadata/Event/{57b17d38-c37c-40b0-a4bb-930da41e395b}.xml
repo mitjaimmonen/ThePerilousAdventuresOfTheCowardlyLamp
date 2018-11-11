@@ -95,6 +95,9 @@
         <property name="startOffset">
             <value>8</value>
         </property>
+        <relationship name="modulators">
+            <destination>{edf9339e-a613-4982-a6b4-5b00b4e64279}</destination>
+        </relationship>
         <relationship name="fadeOutCurve">
             <destination>{f8abc329-1020-4d6f-b430-99e9c7db260e}</destination>
         </relationship>
@@ -129,6 +132,14 @@
         </property>
     </object>
     <object class="MixerBusFader" id="{c6b377d1-a276-4398-b637-13e2b3830739}"/>
+    <object class="RandomizerModulator" id="{edf9339e-a613-4982-a6b4-5b00b4e64279}">
+        <property name="nameOfPropertyBeingModulated">
+            <value>pitch</value>
+        </property>
+        <property name="amount">
+            <value>10</value>
+        </property>
+    </object>
     <object class="FadeCurve" id="{f8abc329-1020-4d6f-b430-99e9c7db260e}">
         <relationship name="startPoint">
             <destination>{1e443008-6d9c-41dc-92fd-09cafaea29a8}</destination>

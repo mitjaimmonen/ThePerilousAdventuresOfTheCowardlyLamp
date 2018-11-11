@@ -26,7 +26,7 @@ public class PlayerControl : MonoBehaviour
 
 
 	private Vector2 spawnPosition;
-	private Vector2 inputModifier;
+	private float horizontalInput;
 	private Vector2 velocity;
 	private bool disableInputs;
 	private bool jumpInput = false;
@@ -181,33 +181,30 @@ public class PlayerControl : MonoBehaviour
 
 	private void HandleKeyInput()
 	{
-		inputModifier.x = Input.GetAxis("Horizontal");
-		inputModifier.y = Input.GetAxis("Vertical");
-		jumpInput = Input.GetButton("Jump");
+		horizontalInput = Input.GetAxis("Horizontal");
+		jumpInput = Input.GetButton("Jump") || Input.GetAxis("Vertical") > 0.2f;
 	}
 
 	private void HandleMoving()
 	{
 		float acceleration = isGrounded ? groundAcceleration : airAcceleration;
-		Vector2 absModifier = new Vector2(Mathf.Abs(inputModifier.x), Mathf.Abs(inputModifier.y));
+		float absModifier = Mathf.Abs(horizontalInput);
 		velocity = rb.velocity;
 
 		//Wallsticktimer keeps player stuck to wall for a fraction of time before letting go, makes walljumping feel better & easier.
-		if ((wallLeft && inputModifier.x > 0.05f) || (wallRight && inputModifier.x < -0.05f))
+		if ((wallLeft && horizontalInput > 0.05f) || (wallRight && horizontalInput < -0.05f))
 			wallStickTimer += delta;
 		else
 			wallStickTimer = 0;
 
 		if ((isWalled && wallStickTimer >= wallStickTime && !isGrounded) || !isWalled || isGrounded)
 		{
-			velocity = velocity + new Vector2(acceleration * inputModifier.x * Time.deltaTime, 0.0f);
+			velocity = velocity + new Vector2(acceleration * horizontalInput * Time.deltaTime, 0.0f);
 		}
 
 		//If no input or input is opposite of current velocity direction
-		if (absModifier.x < 0.05f || (inputModifier.x > 0.05f && velocity.x < -0.05f) || (inputModifier.x < -0.05f && velocity.x > 0.05f))
+		if (absModifier < 0.05f || (horizontalInput > 0.05f && velocity.x < -0.05f) || (horizontalInput < -0.05f && velocity.x > 0.05f))
 		{
-			// float oldXVel = velocity.x;
-
 			//Applies friction values to velocity according to state.
 
 			if (isGrounded)
@@ -218,7 +215,7 @@ public class PlayerControl : MonoBehaviour
 
 		}
 
-		if ((inputModifier.x < -0.05f && wallLeft) || (inputModifier.x > 0.05f && wallRight))
+		if ((horizontalInput < -0.05f && wallLeft) || (horizontalInput > 0.05f && wallRight))
 		{
 			//Applies wall friction when pushing against wall and falling.
 			if (velocity.y < -frictionSlideTargetSpeed)
