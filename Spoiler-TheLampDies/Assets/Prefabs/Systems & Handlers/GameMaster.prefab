@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4972650222546962}
   - component: {fileID: 114934717569008426}
+  - component: {fileID: 114728807272566496}
+  - component: {fileID: 50879690072497222}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: GameController
@@ -40,6 +42,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50879690072497222
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1013354935042250}
+  m_BodyType: 0
+  m_Simulated: 0
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &114728807272566496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1013354935042250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfff50f8d42a5040a527bc70851ee46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMusic: event:/Ambience
+  shootSE: event:/Shoot
+  projectileBounceSE: event:/ProjectileBounce
+  projectileDestroySE: event:/ProjectileExplode
+  shardDestroySE: event:/ShardDestroy
+  shardHitSE: event:/ShardGetHit
+  laserHitSE: event:/LaserHit
+  playerDestroySE: event:/PlayerDestroy
+  playerHitSE: event:/PlayerGetHit
 --- !u!114 &114934717569008426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,4 +93,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad98bdc1ee241547846b9abd95375f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 0

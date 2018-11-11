@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{e6bb2bf6-0cd0-4d28-9906-34f81a7c35e6}">
+        <property name="assetPath">
+            <value>SFX/rock hit impact small.mp3</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>1.512</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{373a4678-9618-48e3-baaf-7737e84d9b75}</destination>
+        </relationship>
+    </object>
+</objects>

@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1698535b76e4c85419adbf961d2badd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LaserShootSE: event:/LaserShoot
   laserContactPSPrefab: {fileID: 198350142594007010, guid: a48bdb1a7079f8b4d89bcde1539c6e6a,
     type: 2}
   laserHitPSPrefab: {fileID: 198847354531305932, guid: 5f5c109fc42f81649b2d661b54f748fe,
@@ -176,6 +177,8 @@ MonoBehaviour:
   damage: 1
   damageInterval: 0.1
   rotationSpeed: 5
+  timeOn: 0
+  timeOff: 0
 --- !u!120 &120642492436894264
 LineRenderer:
   m_ObjectHideFlags: 1
