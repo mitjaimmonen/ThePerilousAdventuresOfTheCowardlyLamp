@@ -77,6 +77,9 @@
         <relationship name="modules">
             <destination>{1d027e5d-937e-4a0c-a448-5414e10726d5}</destination>
         </relationship>
+        <relationship name="markers">
+            <destination>{7c85ad7f-2f15-4648-93d7-0aaa3d84b237}</destination>
+        </relationship>
     </object>
     <object class="ParameterProxy" id="{3545c3b9-a789-473d-a50e-8c52c856b6cd}">
         <relationship name="preset">
@@ -115,7 +118,7 @@
     </object>
     <object class="SingleSound" id="{1d027e5d-937e-4a0c-a448-5414e10726d5}">
         <property name="length">
-            <value>176</value>
+            <value>182</value>
         </property>
         <relationship name="automators">
             <destination>{216900e8-1843-4847-bf6d-ddd6483e2d72}</destination>
@@ -142,6 +145,20 @@
         </relationship>
         <relationship name="output">
             <destination>{0dddb686-5139-4f58-b604-69e9ad3ad91b}</destination>
+        </relationship>
+    </object>
+    <object class="LoopRegion" id="{7c85ad7f-2f15-4648-93d7-0aaa3d84b237}">
+        <property name="position">
+            <value>0</value>
+        </property>
+        <property name="length">
+            <value>181</value>
+        </property>
+        <relationship name="timeline">
+            <destination>{93283bc0-888e-486b-8b03-b780d6e33c64}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{4166ef0f-6c36-4b79-b5e1-7c9168c3201a}</destination>
         </relationship>
     </object>
     <object class="MixerBusEffectChain" id="{7ea8e2a9-c5b5-4a63-9b1a-e81a7e0ec86e}">
@@ -192,7 +209,7 @@
     </object>
     <object class="AutomationPoint" id="{3528af21-96b9-425b-8b09-1f7c9dc71885}">
         <property name="position">
-            <value>166</value>
+            <value>172</value>
         </property>
         <property name="value">
             <value>1</value>
@@ -203,7 +220,7 @@
     </object>
     <object class="AutomationPoint" id="{26779d0b-4f49-46cc-9caf-228f7d69d508}">
         <property name="position">
-            <value>176</value>
+            <value>182</value>
         </property>
         <property name="value">
             <value>0</value>

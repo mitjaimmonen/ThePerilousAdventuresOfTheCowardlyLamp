@@ -48,6 +48,7 @@ public class Checkpoint : MonoBehaviour {
 			//Player spawnposition will be set to this.
 			var player = other.GetComponent<Player>();
 			player.ActivateCheckpoint(this);
+			GameMaster.Instance.SoundMaster.PlayCheckpoint(transform.position);
 			if (activationPS)
 				activationPS.Play();
 

@@ -159,6 +159,6 @@ public class Player : MonoBehaviour, IDamageable {
 
 	public void FinishLevel()
 	{
-		GameMaster.Instance.IsFinished = true;
+		GameMaster.Instance.EndLevel();
 	}
 }

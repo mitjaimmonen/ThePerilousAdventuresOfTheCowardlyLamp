@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
@@ -15,8 +16,7 @@ public class MenuMaster : MonoBehaviour {
 	public MainMenuState menuState;
 	public GameObject StartCanvas;
 	public GameObject levelCanvas;
-	public List<TextMesh> levelTexts = new List<TextMesh>();
-	public GameObject defaultStartSelection, defaultLevelSelection;
+	public List<Button> levelButtons = new List<Button>();
 
 	public int unlockedLevel = 0;
 
@@ -25,16 +25,6 @@ public class MenuMaster : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Initialize();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (GameMaster.Instance.GameState != GameState.game)
-		{
-			SetSelections();
-
-
-		}
 	}
 
 	public void Initialize()
@@ -50,41 +40,29 @@ public class MenuMaster : MonoBehaviour {
 		levelCanvas.gameObject.SetActive(false);
 		unlockedLevel = PlayerPrefsManager.GetLevel();
 	}
-	void SetSelections()
-	{
-		if (EventSystem.current.currentSelectedGameObject == null)
-		{
-			if (menuState == MainMenuState.startMenu)
-				EventSystem.current.SetSelectedGameObject(defaultStartSelection);
-			if (menuState == MainMenuState.levelMenu)
-				EventSystem.current.SetSelectedGameObject(defaultLevelSelection);
-		}
-		else if (selecetedObject != null && selecetedObject != EventSystem.current.currentSelectedGameObject.transform)
-		{
-			selecetedObject = EventSystem.current.currentSelectedGameObject.transform;
-		}
-		else if (selecetedObject == null)
-			selecetedObject = EventSystem.current.currentSelectedGameObject.transform;
-		
-	}
 
 	public void StartMenuStart()
 	{
 		unlockedLevel = PlayerPrefsManager.GetLevel();
 		
-		for(int i = 0; i < levelTexts.Count; i++)
+		for(int i = 0; i < levelButtons.Count; i++)
 		{
-			if (!GameMaster.Instance.HasScene("Level" + i))
-				levelTexts[i].text = "Coming \n soon!";
-			else if (i > unlockedLevel)
-				levelTexts[i].text = "Locked";
+			if (!GameMaster.Instance.HasScene("Level" + i)) // No scene in build
+				levelButtons[i].GetComponentInChildren<Text>().text = "UNDER CONSTRUCTION!";
+			else if (i > unlockedLevel) //Not unlocked yet
+				levelButtons[i].GetComponentInChildren<Text>().text = "LOCKED";
+			else if (i == 0) //First level = tutorial
+				levelButtons[i].GetComponentInChildren<Text>().text = "TUTORIAL";
 			else
-				levelTexts[i].text ="Level \n" + i; 
+			{
+				levelButtons[i].interactable = true; //Activate button.
+				levelButtons[i].GetComponentInChildren<Text>().text ="LEVEL " + i; 
+				levelButtons[i].GetComponentInChildren<Text>().color = Color.white;
+			}
 		}
 
 		StartCanvas.SetActive(false);
 		levelCanvas.SetActive(true);
-		EventSystem.current.SetSelectedGameObject(defaultLevelSelection);
 		menuState = MainMenuState.levelMenu;
 
 	}
@@ -93,7 +71,6 @@ public class MenuMaster : MonoBehaviour {
 	{
 		levelCanvas.SetActive(false);
 		StartCanvas.SetActive(true);
-		EventSystem.current.SetSelectedGameObject(defaultStartSelection);
 		menuState = MainMenuState.startMenu;
 	}
 

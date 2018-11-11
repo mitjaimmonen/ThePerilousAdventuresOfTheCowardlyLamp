@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 20455282620948512}
   - component: {fileID: 81838902463318374}
   - component: {fileID: 114714502697668000}
+  - component: {fileID: 114321050690034008}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -162,10 +163,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b39985f8fbf6a745a82ea403c255427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTrans: {fileID: 0}
   distance: 20
   offsetV: 1
   lerpSpeed: 5
+--- !u!114 &114321050690034008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1009657745355332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!114 &114335202325548382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -205,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTrans: {fileID: 4509861557847116}
-  maxShakes: 10
+  maxShakes: 7
   maxMagnitude: 2
   maxFrequency: 20
   maxDuration: 2

@@ -182,7 +182,7 @@ public class PlayerControl : MonoBehaviour
 	private void HandleKeyInput()
 	{
 		horizontalInput = Input.GetAxis("Horizontal");
-		jumpInput = Input.GetButton("Jump") || Input.GetAxis("Vertical") > 0.2f;
+		jumpInput = Input.GetButton("Jump");
 	}
 
 	private void HandleMoving()

@@ -189,7 +189,7 @@
             <value>0.064763958413554076</value>
         </property>
         <property name="value">
-            <value>-4</value>
+            <value>-0.136396408</value>
         </property>
         <property name="curveShape">
             <value>0.24145475</value>
@@ -200,7 +200,7 @@
             <value>0.1014339622641509</value>
         </property>
         <property name="value">
-            <value>-13.8999996</value>
+            <value>-10.036396</value>
         </property>
         <property name="curveShape">
             <value>-0.224718794</value>
@@ -211,7 +211,7 @@
             <value>0.13041509433962262</value>
         </property>
         <property name="value">
-            <value>-3</value>
+            <value>0.863603592</value>
         </property>
     </object>
 </objects>

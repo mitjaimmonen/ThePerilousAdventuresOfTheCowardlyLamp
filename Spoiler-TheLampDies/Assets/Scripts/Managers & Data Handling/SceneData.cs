@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneData : MonoBehaviour {
 
 	public GameState gameState;
+	public int levelNumber;
 
 	private int totalShardAmount;
 	public int TotalShardAmount

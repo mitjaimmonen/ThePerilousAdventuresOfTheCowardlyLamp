@@ -194,6 +194,7 @@ public class GameMaster : MonoBehaviour {
 		//Initialization according to scene.
 		if (GameState == GameState.game)
 		{
+			LevelNumber = CurrentSceneData.levelNumber;
 			IsFinished = false;
 			IsPaused = false;
 		}
@@ -201,7 +202,6 @@ public class GameMaster : MonoBehaviour {
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
 	{
-
 		
         Initialize();
 	}
@@ -251,7 +251,7 @@ public class GameMaster : MonoBehaviour {
 
 	public void NextLevel()
 	{
-		LevelNumber++;
+		++LevelNumber;
         if (HasScene("Level" + LevelNumber))
 		    SceneManager.LoadScene("Level" + LevelNumber);
         else
@@ -263,7 +263,7 @@ public class GameMaster : MonoBehaviour {
 		IsFinished = true;
 		IsPaused = true;
 
-		PlayerPrefsManager.SetLevel(Mathf.Max(PlayerPrefs.GetInt("Level"), GameMaster.Instance.LevelNumber+1));
+		PlayerPrefsManager.SetLevel(Mathf.Max(PlayerPrefs.GetInt("Level"), LevelNumber+1));
 		gameCanvas.HudCanvas.GamePaused(IsPaused);
 		gameCanvas.PauseMenuCanvas.GamePaused(IsFinished, PauseType.won);
 		

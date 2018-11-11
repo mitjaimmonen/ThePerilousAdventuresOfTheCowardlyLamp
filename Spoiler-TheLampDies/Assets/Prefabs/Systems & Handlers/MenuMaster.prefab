@@ -152,7 +152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1487546908048214
 GameObject:
   m_ObjectHideFlags: 1
@@ -339,7 +339,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: UNDER CONSTRUCTION
+  m_Text: LEVEL 1
 --- !u!114 &114157285772024008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -518,9 +518,12 @@ MonoBehaviour:
   menuState: 0
   StartCanvas: {fileID: 1228475456371056}
   levelCanvas: {fileID: 1362045462378544}
-  levelTexts: []
-  defaultStartSelection: {fileID: 0}
-  defaultLevelSelection: {fileID: 0}
+  levelButtons:
+  - {fileID: 114330942437991408}
+  - {fileID: 114951167248918280}
+  - {fileID: 114291661954096708}
+  defaultStartSelection: {fileID: 1016661575508524}
+  defaultLevelSelection: {fileID: 1871210408812222}
   unlockedLevel: 0
 --- !u!114 &114460058508464488
 MonoBehaviour:
@@ -639,7 +642,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: UNDER CONSTRUCTION
+  m_Text: LEVEL 2
 --- !u!114 &114523217166046518
 MonoBehaviour:
   m_ObjectHideFlags: 1

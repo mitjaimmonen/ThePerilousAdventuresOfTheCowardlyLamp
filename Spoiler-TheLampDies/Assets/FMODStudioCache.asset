@@ -26,11 +26,49 @@ MonoBehaviour:
   - {fileID: 114773391575571980}
   - {fileID: 114949696913131806}
   - {fileID: 114226505453988204}
+  - {fileID: 114022876960869110}
   MasterBankRef: {fileID: 114161373365331824}
   StringsBankRef: {fileID: 114246838505118686}
-  stringsBankWriteTime: 636775645546176603
+  stringsBankWriteTime: 636775664592135203
   cacheVersion: 2
+--- !u!114 &114022876960869110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Checkpoint
+  guid: a4e8a55a20b99b49a4dfd52db4c5acf2
+  Banks:
+  - {fileID: 114161373365331824}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 1593
 --- !u!114 &114046052446591240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: PlayerHealth
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114109607180392094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,11 +96,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: C:\Users\Laptop\Documents\Git\ThePerilousAdventuresOfTheCowardlyLamp\Spoiler-TheLampDies\Assets\FMOD\Project\Build\Desktop\Master
     Bank.bank
-  lastModified: 636775645546097072
+  lastModified: 636775664592065357
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 2838912
+    Value: 2851776
   Exists: 1
 --- !u!114 &114226505453988204
 MonoBehaviour:
@@ -98,12 +136,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\FMOD\Project\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636775645546176603
+  lastModified: 636775664592135203
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1198
+    Value: 1240
   Exists: 1
+--- !u!114 &114253230519039584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: PlayerHealth
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114262838994154952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +395,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 40
   Length: 330
+--- !u!114 &114671872043178280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: PlayerHealth
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114718780216972450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +454,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 40
   Length: 700
+--- !u!114 &114739925325181288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: PlayerHealth
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114773391575571980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,12 +486,12 @@ MonoBehaviour:
   - {fileID: 114161373365331824}
   IsStream: 1
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters:
-  - {fileID: 114380450844620372}
+  - {fileID: 114739925325181288}
   MinDistance: 1
   MaxDistance: 20
-  Length: 176000
+  Length: 182000
 --- !u!114 &114845097034936450
 MonoBehaviour:
   m_ObjectHideFlags: 0

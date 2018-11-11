@@ -433,6 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: 0
+  levelNumber: 0
 --- !u!4 &498649630
 Transform:
   m_ObjectHideFlags: 0

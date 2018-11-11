@@ -151,7 +151,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 			{
 				iDmg.GetHit(data.damage, col.contacts[0].point);
 			}
-			GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.075f, 10f,EasingCurves.Curve.easeOut, 0.35f, 0);
+			GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.05f, 10f,EasingCurves.Curve.easeOut, 0.3f, 0);
 			BlowUp();
 		}
 	}

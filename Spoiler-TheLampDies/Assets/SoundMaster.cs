@@ -15,12 +15,14 @@ public class SoundMaster : MonoBehaviour {
 	[FMODUnity.EventRef] public string playerDestroySE;
 	[FMODUnity.EventRef] public string playerHitSE;
 	[FMODUnity.EventRef] public string collectSE;
+	[FMODUnity.EventRef] public string checkpointSE;
 	
 	private FMOD.Studio.EventInstance musicEI;
 	private GameObject target;
 	private Player player;
 	private float healthParam = 1f;
 	private float oneShotTimer;
+	private float ambienceCheckTimer;
 
 
 	void Start()
@@ -61,6 +63,17 @@ public class SoundMaster : MonoBehaviour {
 			//In menu keep parameter at 1
 			healthParam = 1f;
 			musicEI.setParameterValue("PlayerHealth", 1f);
+		}
+
+
+		//Every 5 seconds check that ambience is playing.
+		if (ambienceCheckTimer + 5f < Time.time)
+		{
+			FMOD.Studio.PLAYBACK_STATE playbackState;
+			musicEI.getPlaybackState(out playbackState);
+
+			if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+				musicEI.start();
 		}
 
 	}
@@ -113,5 +126,10 @@ public class SoundMaster : MonoBehaviour {
 	{
 		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(collectSE, pos);
+	}
+	public void PlayCheckpoint(Vector2 pos)
+	{
+		if (oneShotTimer + 0.05f < Time.time)
+			FMODUnity.RuntimeManager.PlayOneShot(checkpointSE, pos);
 	}
 }
