@@ -1,2 +1,5 @@
-# ThePerilousAdventuresOfTheCowardlyLamp
-Probably something else than the title says
+# Sharded
+Game is downloadable here:
+
+https://lazygames.itch.io/sharded
+
