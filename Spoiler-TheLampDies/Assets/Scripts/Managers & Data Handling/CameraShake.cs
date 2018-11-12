@@ -42,6 +42,8 @@ public class CameraShake : MonoBehaviour {
 			yield return new WaitForSeconds(delay);
 			
 		float startTime= Time.time;
+		float rotationSpeed = Random.Range(-100f,100f) * frequency;
+
 		float magnitudeMultiplier = 0;
 		Vector3 offset = Vector3.zero;
 		Vector3 lastOffset = Vector3.zero;
@@ -49,8 +51,11 @@ public class CameraShake : MonoBehaviour {
 		float t = 0;
 
 		//Add a little bit of variation/randomness to values
-		//Multiply frequency with duration for shake to ignore time.
 		Vector2 curMagnitude = new Vector2(Random.Range(0.9f,1.1f) * magnitude, Random.Range(0.9f,1.1f) * magnitude);
+		//Randomize start direction
+		curMagnitude = Random.insideUnitCircle.normalized * curMagnitude; 
+
+		//Multiply frequency with duration for shake to ignore time.
 		Vector2 curFrequency = new Vector2(Random.Range(0.9f,1.1f) * (frequency * duration), Random.Range(0.9f,1.1f) * (frequency*duration));
 
 		//Loops shaking until time > duration
@@ -62,6 +67,9 @@ public class CameraShake : MonoBehaviour {
 			t = (Time.time - startTime)/duration;
 			magnitudeMultiplier = 1f - EasingCurves.Easing(t, easingCurve);
 
+			//"Randomizes" direction of the shake in real time.
+			curMagnitude = Rotate(curMagnitude, rotationSpeed*Time.deltaTime);
+
 			//Sine waves make a great shake with proper handling of frequency and magnitude.
 			//Magnitude multiplayer makes the shake to ease away smoothly.
 			offset.x = Mathf.Sin(2f*Mathf.PI * t * curFrequency.x + 0) * (curMagnitude.x*magnitudeMultiplier);
@@ -72,15 +80,44 @@ public class CameraShake : MonoBehaviour {
 			newOffset = (transform.right * offset.x + transform.up*offset.y) - lastOffset;
 			cameraTrans.localPosition += newOffset;
 
+			
 			yield return null;
 		}
-		shakes--;
 
+		shakes--;
 		//If last shake, reset offset.
 		if (shakes < 1)
-			cameraTrans.localPosition = Vector3.zero;
+		{
+			Vector3 oldPos = cameraTrans.localPosition;
+			float timer = 0;
+			while (cameraTrans.localPosition != Vector3.zero && shakes < 1)
+			{
+				timer += Time.deltaTime;
+				//Smoothly sets position back to zero in case it is not already.
+				cameraTrans.localPosition = Vector3.Lerp(oldPos, Vector3.zero, timer*2f); //Uses 0,5 seconds.
+
+				yield return null;
+			}
+		}
 
 
 		yield break;
 	}
+
+
+	private Vector2 Rotate(Vector2 v, float degrees) 
+	{
+		//Rotates vector by degree amount.
+
+         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+         float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+         
+         float tx = v.x;
+         float ty = v.y;
+         v.x = (cos * tx) - (sin * ty);
+         v.y = (sin * tx) + (cos * ty);
+
+         return v;
+    }
+
 }

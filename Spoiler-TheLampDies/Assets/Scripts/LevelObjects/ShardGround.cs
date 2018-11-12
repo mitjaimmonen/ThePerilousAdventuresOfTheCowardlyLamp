@@ -71,7 +71,7 @@ public class ShardGround : MonoBehaviour, IDamageable {
 			IDamageable idmg = col.collider.GetComponent<IDamageable>();
 			if (idmg != null)
 			{
-				GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.3f,8f,EasingCurves.Curve.easeOut, 0.4f, 0);
+				GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.3f,12f,EasingCurves.Curve.easeOut, 0.4f, 0);
 				idmg.GetHit(damage, col.contacts[0].point);
 			}
 		}

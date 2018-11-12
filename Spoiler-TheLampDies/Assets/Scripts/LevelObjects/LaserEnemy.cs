@@ -138,7 +138,7 @@ public class LaserEnemy : MonoBehaviour {
 				{
 					hitTime = Time.time;
 					GameMaster.Instance.SoundMaster.PlayLaserHit(hit2D.point);
-					GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.2f,15f,EasingCurves.Curve.easeOut, 0.5f, 0);
+					GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.35f,20f,EasingCurves.Curve.linear, 0.5f, 0);
 					Idmg.GetHit(damage, hit2D.point);
 
 					if (laserHitPSPrefab)

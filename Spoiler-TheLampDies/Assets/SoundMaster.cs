@@ -20,7 +20,8 @@ public class SoundMaster : MonoBehaviour {
 	private FMOD.Studio.EventInstance musicEI;
 	private GameObject target;
 	private Player player;
-	private float healthParam = 1f;
+	private float health = 1f;
+	private float healthLerp = 1f;
 	private float oneShotTimer;
 	private float ambienceCheckTimer;
 
@@ -52,17 +53,18 @@ public class SoundMaster : MonoBehaviour {
 				player = GameMaster.Instance.Player;
 			
 			//Get health value between 0-1
-			float health = Mathf.Clamp01(player.CurrentHealth/player.maxHealth);
+			health = Mathf.Clamp01(player.CurrentHealth/player.maxHealth);
 			//Lerp value for smooth effect.
-			healthParam = Mathf.Lerp(healthParam, health, Time.deltaTime*3.5f);
+			healthLerp = Mathf.Lerp(healthLerp, health, Time.deltaTime*3.5f);
 			//Apply parameter to fmod. (Makes lowpass & pitch change effect when damage taken)
-			musicEI.setParameterValue("PlayerHealth", healthParam);
+			musicEI.setParameterValue("PlayerHealth", healthLerp);
 		}
 		else
 		{
 			//In menu keep parameter at 1
-			healthParam = 1f;
-			musicEI.setParameterValue("PlayerHealth", 1f);
+			health = 1f;
+			healthLerp = Mathf.Lerp(healthLerp, health, Time.deltaTime*2f);
+			musicEI.setParameterValue("PlayerHealth", healthLerp);
 		}
 
 

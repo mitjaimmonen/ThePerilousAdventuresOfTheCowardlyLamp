@@ -220,7 +220,7 @@ MonoBehaviour:
   maxShakes: 7
   maxMagnitude: 2
   maxFrequency: 20
-  maxDuration: 2
+  maxDuration: 5
   maxDelay: 0.5
 --- !u!114 &114714502697668000
 MonoBehaviour:

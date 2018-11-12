@@ -18,6 +18,8 @@ public class EasingCurves {
 		easeIn,
 		easeOut,
 		easeInOut,
+		one,
+		zero
 	}
 
 	public static float Easing(float time, Curve curve)
@@ -26,6 +28,10 @@ public class EasingCurves {
 
 		switch (curve)
 		{
+			case Curve.one :
+				return 1f;
+			case Curve.zero :
+				return 0;
 			case Curve.linear :
 				return time;
 			case Curve.exponentialIn :
