@@ -62,7 +62,7 @@ public class CameraShake : MonoBehaviour {
 		while (startTime > Time.time - duration)
 		{
 			//Use last offset to allow shake overlapping.
-			lastOffset = transform.right * offset.x + transform.up*offset.y;
+			lastOffset = offset;
 
 			t = (Time.time - startTime)/duration;
 			magnitudeMultiplier = 1f - EasingCurves.Easing(t, easingCurve);
@@ -77,7 +77,7 @@ public class CameraShake : MonoBehaviour {
 
 
 			//Apply offset to camera object under camera container to not interfere with global camera positioning.
-			newOffset = (transform.right * offset.x + transform.up*offset.y) - lastOffset;
+			newOffset = offset - lastOffset;
 			cameraTrans.localPosition += newOffset;
 
 			
