@@ -128,7 +128,7 @@ public class Player : MonoBehaviour, IDamageable {
 			diePS.Play();
 
 		rb.simulated = false;
-		GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.75f, 1.5f, EasingCurves.Curve.linear, 3f, 0);
+		GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.75f, 1f, EasingCurves.Curve.easeOut, 3f, 0);
 		GameMaster.Instance.SoundMaster.PlayPlayerDestroy(transform.position);
 		StartCoroutine(Respawn(3f));
 	}
