@@ -108,6 +108,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 			//Velocity effect is the added speed of player at the time of shot.
 			rbVelocityEffect = Vector2.Lerp(data.playerSpeed, Vector2.zero, lerpTime);
 
+
 			//Rotate towards movement direction.
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, data.direction), Time.deltaTime * 15f);
 
@@ -117,15 +118,22 @@ public class Projectile : MonoBehaviour, IDamageable {
 				trailMain.startSizeMultiplier = trailPSOrigsize * size;
 
 
-			//Apply current speed.
-			var vel = speed * data.direction;
 
-			//Add player speed effect into velocity if it is helpful.
-			if ((rbVelocityEffect + vel).magnitude > vel.magnitude)
-				rb.velocity = (data.direction * speed) + rbVelocityEffect;
-			else
-				rb.velocity = data.direction * speed;
+
 		}
+
+	}
+
+	private void FixedUpdate() {
+		
+		//Apply current speed.
+		var vel = speed * data.direction;
+
+		//Add player speed effect into velocity if it is helpful.
+		if ((rbVelocityEffect + vel).magnitude > vel.magnitude)
+			rb.velocity = vel + rbVelocityEffect;
+		else
+			rb.velocity = vel;
 
 	}
 
@@ -142,6 +150,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 			transform.up = newDir.normalized;
 			data.direction = newDir.normalized;
 			rb.velocity = data.direction * speed;
+			rb.angularVelocity = 0;
 		}
 		//Colliding layers destroy projectile. Enemies should be in colliding layers as well.
 		if (data.collidingLayers == (data.collidingLayers | (1 << col.gameObject.layer)))

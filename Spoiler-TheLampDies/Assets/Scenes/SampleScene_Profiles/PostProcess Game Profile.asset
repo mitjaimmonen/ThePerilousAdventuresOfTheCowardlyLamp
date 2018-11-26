@@ -232,7 +232,7 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 1
+    overrideState: 0
     value: -2
   tint:
     overrideState: 0
@@ -251,9 +251,9 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 0
-    value: -0.1
+    value: -0.01
   contrast:
-    overrideState: 1
+    overrideState: 0
     value: 20
   mixerRedOutRedIn:
     overrideState: 0

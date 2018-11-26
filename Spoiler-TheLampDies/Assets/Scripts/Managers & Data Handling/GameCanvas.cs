@@ -30,7 +30,6 @@ public class GameCanvas : MonoBehaviour {
 		}
 	}
 
-
 	public void UpdateItemCount()
 	{
 		HudCanvas.UpdateItemCount();

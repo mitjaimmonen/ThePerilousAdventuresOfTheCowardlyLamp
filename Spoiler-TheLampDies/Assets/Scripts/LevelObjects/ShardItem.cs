@@ -7,6 +7,8 @@ public class ShardItem : MonoBehaviour {
 	public int value = 1;
 	private float maxSpeed = 10f;
 	private Rigidbody2D rb;
+	private Vector3 dist;
+
 	private Player player;
 	public Player Player
 	{
@@ -25,27 +27,35 @@ public class ShardItem : MonoBehaviour {
 
 	private void Update()
 	{
-		Vector2 dist = player.transform.position-transform.position;
-		if (dist.magnitude < player.magnetDistance)
+
+		if (player && player.CurrentHealth > 0)
 		{
-			rb.gravityScale = 0;
-			dist *= 5f; // Gives more kick to magnet effect.
-			rb.AddForce(dist);
-			rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
-		}
-		else
-		{
-			//When away from player, gravity is normal and force cleared.
-			rb.gravityScale = 1f;
-			rb.velocity = new Vector2(rb.velocity.x*0.85f, rb.velocity.y);
+			dist = player.transform.position - transform.position;
+			if (dist.magnitude < 1.5f)
+			{
+				player.CollectShardItem(value);
+				Destroy(this.gameObject);
+			}
 		}
 	}
-	private void OnTriggerEnter2D(Collider2D other)
+
+	private void FixedUpdate() 
 	{
-		if (other.gameObject.GetComponent<Player>())
+		if (player)
 		{
-			player.CollectShardItem(value);
-			Destroy(this.gameObject);
+			if (dist.magnitude < player.magnetDistance)
+			{
+				rb.gravityScale = 0;
+				dist *= 5f; // Gives more kick to magnet effect.
+				rb.AddForce(dist);
+				rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+			}
+			else
+			{
+				//When away from player, gravity is normal and force cleared.
+				rb.gravityScale = 1f;
+				rb.velocity = new Vector2(rb.velocity.x*0.85f, rb.velocity.y);
+			}
 		}
 	}
 }

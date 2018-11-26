@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FMODUnity;
+using FMOD;
 
 public class SoundMaster : MonoBehaviour {
 
@@ -42,7 +42,7 @@ public class SoundMaster : MonoBehaviour {
 			musicEI.start();
 
 	}
-		
+
 	void Update()
 	{
 		musicEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position));

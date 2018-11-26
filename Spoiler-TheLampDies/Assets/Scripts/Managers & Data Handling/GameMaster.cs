@@ -76,9 +76,13 @@ public class GameMaster : MonoBehaviour {
 			if (!gameCanvas)
 			{
 				var temp = GameObject.FindGameObjectWithTag("MainCanvas");
+				
 				if (temp)
+				{
 					gameCanvas = temp.GetComponent<GameCanvas>();
+				}
 			}
+
 			return gameCanvas;
 		}
 	}
@@ -147,9 +151,14 @@ public class GameMaster : MonoBehaviour {
 		set 
 		{
 			isPaused = value;
-			PostProcessingHandler.GamePaused(isPaused);
-			GameCanvas.PauseMenuCanvas.GamePaused(isPaused, IsFinished ? PauseType.won : PauseType.paused);
-			GameCanvas.HudCanvas.GamePaused(isPaused);
+			if (PostProcessingHandler)
+				PostProcessingHandler.GamePaused(isPaused);
+			if (GameCanvas)
+			{
+				GameCanvas.PauseMenuCanvas.GamePaused(isPaused, IsFinished ? PauseType.won : PauseType.paused);
+				GameCanvas.HudCanvas.GamePaused(isPaused);
+			}
+
 			if (isPaused)
 				Time.timeScale = 0;
 			else

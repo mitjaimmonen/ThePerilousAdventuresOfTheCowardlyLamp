@@ -70,6 +70,5 @@ public class PostProcessingHandler : MonoBehaviour {
 		col.saturation.value = Mathf.Lerp(col.saturation.value, currentSat, t);
 		vignette.intensity.value = Mathf.Lerp(vignette.intensity.value, currentVignette, t);
 		dof.focusDistance.value = Mathf.Lerp(dof.focusDistance.value, currentFocusDistance, t);
-		Debug.Log("currentdof: " + currentFocusDistance + " currentsat: " + currentSat + " currentvig: " + currentVignette);
 	}
 }
