@@ -17,12 +17,13 @@ public class SoundMaster : MonoBehaviour {
 	[FMODUnity.EventRef] public string collectSE;
 	[FMODUnity.EventRef] public string checkpointSE;
 	
+	private readonly float oneShotMinInterval = 0.05f;
 	private FMOD.Studio.EventInstance musicEI;
 	private GameObject target;
 	private Player player;
 	private float health = 1f;
 	private float healthLerp = 1f;
-	private float oneShotTimer;
+	private float lastOneShotTime;
 	private float ambienceCheckTimer;
 
 
@@ -76,6 +77,8 @@ public class SoundMaster : MonoBehaviour {
 
 			if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
 				musicEI.start();
+
+			ambienceCheckTimer = Time.time;
 		}
 
 	}
@@ -84,54 +87,44 @@ public class SoundMaster : MonoBehaviour {
 
 	public void PlayShoot(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(shootSE, pos);
 	}
 	public void PlayProjectileBounce(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(projectileBounceSE, pos);
 	}
 	public void PlayProjectileDestroy(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(projectileDestroySE, pos);
 	}
 
 	public void PlayShardDestroy(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(shardDestroySE, pos);
 	}
 	public void PlayShardHit(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(shardHitSE, pos);
 	}
 	public void PlayLaserHit(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(laserHitSE, pos);
 	}
 
 	public void PlayPlayerDestroy(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(playerDestroySE, pos);
 	}
 	public void PlayPlayerHit(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(playerHitSE, pos);
 	}
 	public void PlayCollect(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(collectSE, pos);
 	}
 	public void PlayCheckpoint(Vector2 pos)
 	{
-		if (oneShotTimer + 0.05f < Time.time)
 			FMODUnity.RuntimeManager.PlayOneShot(checkpointSE, pos);
 	}
 }

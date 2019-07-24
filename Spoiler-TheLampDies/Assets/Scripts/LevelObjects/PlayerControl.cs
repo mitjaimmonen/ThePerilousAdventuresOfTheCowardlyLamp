@@ -30,7 +30,7 @@ public class PlayerControl : MonoBehaviour
 	private Vector2 velocity;
 	private bool disableInputs;
 	private bool jumpInput = false;
-	private bool prevJumpInput = false;
+
 
 
 	private bool canJump;
@@ -248,7 +248,6 @@ public class PlayerControl : MonoBehaviour
 			jumpTimer = 0;
 			canJump = false;
 			canFloat = true;
-			prevJumpInput = true;
 		}
 		else if (isWalled && canJump)
 		{
@@ -261,7 +260,6 @@ public class PlayerControl : MonoBehaviour
 			jumpTimer = 0;
 			canJump = false;
 			canFloat = true;
-			prevJumpInput = true;
 			Debug.Log(velocity);
 		}
 

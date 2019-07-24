@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using System;
 
 public class LaserEnemy : MonoBehaviour {
 
-	[FMODUnity.EventRef] public string LaserShootSE;
+	[FMODUnity.EventRef, SerializeField] private string LaserShootSE;
 	private FMOD.Studio.EventInstance shootEI;
 
-
-	[Tooltip("Laser plays this PS constantly if hitting something.")]
-	public ParticleSystem laserContactPSPrefab;
+	[Tooltip("Laser plays this PS constantly if hitting something non-damageable.")]
+	[SerializeField] private ParticleSystem laserContactPSPrefab;
 	[Tooltip("Laser plays this PS if hitting something damageable")]
-	public ParticleSystem laserHitPSPrefab;
-	public float distance;
-	public float damage;
-	public float damageInterval;
-	public float rotationSpeed;
-	public float timeOn;
-	public float timeOff;
+	[SerializeField] private ParticleSystem laserHitPSPrefab;
+
+	[SerializeField] private float distance;
+	[SerializeField] private float damage;
+	[SerializeField] private float damageInterval;
+	[SerializeField] private float rotationSpeed;
+	[SerializeField] private float timeOn;
+	[SerializeField] private float timeOff;
 
 
 	private List<LineRenderer> lasers = new List<LineRenderer>();
@@ -66,43 +67,87 @@ public class LaserEnemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		SetActiveState();	//Checks for timer to turn on/off lasers.
+		PlaySound();		//Plays shooting sound.
+		CheckCollisions();	//Raycast checks for surroundings.
+		RotateAround();		//Rotates if speed != 0
+	}
+
+	private void SetActiveState()
+	{
+		if (timeOff != 0 && timeOn != 0)
+		{
+			if (isOn)
+			{
+				if (stateTime + timeOn < Time.time)
+				{
+					isOn = false;
+					stateTime = Time.time;
+				}
+			}
+			else
+			{
+				if (stateTime + timeOff < Time.time)
+				{
+					isOn = true;
+					stateTime = Time.time;
+				}
+			}
+		}
+
 
 		for (int i = 0; i < lasers.Count; i++)
 		{
 			if (isOn)
 			{
-				if (!shootEI.isValid() && LaserShootSE != "")
-				{
-					shootEI = FMODUnity.RuntimeManager.CreateInstance(LaserShootSE);
-					shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
-				}
-				if (shootEI.isValid())
-				{
-					FMOD.Studio.PLAYBACK_STATE pbs;
-					shootEI.getPlaybackState(out pbs);
-					if (pbs != FMOD.Studio.PLAYBACK_STATE.PLAYING)
-						shootEI.start();
-				}
 				lasers[i].gameObject.SetActive(true);
-
 			}
 			else
 			{
-				if (shootEI.isValid())
-				{
-					FMOD.Studio.PLAYBACK_STATE pbs;
-					shootEI.getPlaybackState(out pbs);
-					if (pbs != FMOD.Studio.PLAYBACK_STATE.STOPPED)
-						shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-				}
 				lasers[i].gameObject.SetActive(false);
 				//Stop hit PS because no hits.
 				contactPS[i].Stop();
-				
-				continue;
+			}
+		}
+	}
 
+	private void PlaySound()
+	{
+		if (isOn)
+		{
+			if (!shootEI.isValid() && LaserShootSE != "")
+			{
+				shootEI = FMODUnity.RuntimeManager.CreateInstance(LaserShootSE);
+				shootEI.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+			}
+			if (shootEI.isValid())
+			{
+				FMOD.Studio.PLAYBACK_STATE pbs;
+				shootEI.getPlaybackState(out pbs);
+				if (pbs != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+					shootEI.start();
 			}
 
+		}
+		else
+		{
+			if (shootEI.isValid())
+			{
+				FMOD.Studio.PLAYBACK_STATE pbs;
+				shootEI.getPlaybackState(out pbs);
+				if (pbs != FMOD.Studio.PLAYBACK_STATE.STOPPED)
+					shootEI.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			}
+		}
+	}
+
+	private void CheckCollisions()
+	{
+		if (!isOn)
+			return;
+
+		for (int i = 0; i < lasers.Count; i++)
+		{
 			//Lasers are positioned to shoot upwards, raycast is up as well.
 			RaycastHit2D hit2D = Physics2D.Raycast(lasers[i].transform.position, lasers[i].transform.up, distance);
 
@@ -138,7 +183,7 @@ public class LaserEnemy : MonoBehaviour {
 				{
 					hitTime = Time.time;
 					GameMaster.Instance.SoundMaster.PlayLaserHit(hit2D.point);
-					GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.35f,20f,EasingCurves.Curve.linear, 0.5f, 0);
+					GameMaster.Instance.CameraHandler.CameraShake.StartShake(0.35f, 20f, EasingCurves.Curve.linear, 0.5f, 0);
 					Idmg.GetHit(damage, hit2D.point);
 
 					if (laserHitPSPrefab)
@@ -150,28 +195,11 @@ public class LaserEnemy : MonoBehaviour {
 				}
 			}
 		}
+	}
 
-		if (timeOff != 0 && timeOn != 0)
-		{
-			if (isOn)
-			{
-				if (stateTime + timeOn < Time.time)
-				{
-					isOn = false;
-					stateTime = Time.time;
-				}
-			}
-			else
-			{
-				if (stateTime + timeOff < Time.time)
-				{
-					isOn = true;
-					stateTime = Time.time;
-				}
-			}
-		}
-
+	private void RotateAround()
+	{
 		if (rotationSpeed != 0)
-			transform.Rotate(new Vector3(0,0,rotationSpeed*Time.deltaTime), Space.Self);
+			transform.Rotate(new Vector3(0, 0, rotationSpeed * Time.deltaTime), Space.Self);
 	}
 }

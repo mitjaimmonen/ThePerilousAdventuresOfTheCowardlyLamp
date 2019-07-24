@@ -141,7 +141,7 @@ public class Player : MonoBehaviour, IDamageable {
 		if (lastCheckpoint)
 		{
 			ShardItemCount = lastCheckpoint.ShardCount;
-			transform.position = lastCheckpoint.spawnPos.position;
+			transform.position = lastCheckpoint.SpawnPos;
 		}
 		else
 		{

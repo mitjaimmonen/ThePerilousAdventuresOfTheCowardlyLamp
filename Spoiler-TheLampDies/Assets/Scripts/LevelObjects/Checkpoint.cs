@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour {
 
-	public ParticleSystem activationPS;
-	public Material ActiveCheckpoint;
-	public Transform spawnPos;
-	public Transform visuals;
-	public TextMesh shardCountText;
+	[SerializeField] private ParticleSystem activationPS;
+	[SerializeField] private Material ActiveCheckpoint;
+	[SerializeField] private Transform spawnTrans;
+	[SerializeField] private Transform visuals;
+	[SerializeField] private TextMesh shardCountText;
 
 
 	private int shardCount = 0;
@@ -20,6 +20,10 @@ public class Checkpoint : MonoBehaviour {
 			shardCount = value;
 			SetText();
 		}
+	}
+	public Vector3 SpawnPos
+	{
+		get{ return spawnTrans.position; }
 	}
 
 
@@ -48,6 +52,8 @@ public class Checkpoint : MonoBehaviour {
 			//Player spawnposition will be set to this.
 			var player = other.GetComponent<Player>();
 			player.ActivateCheckpoint(this);
+
+			//Play feedback sound and visuals
 			GameMaster.Instance.SoundMaster.PlayCheckpoint(transform.position);
 			if (activationPS)
 				activationPS.Play();

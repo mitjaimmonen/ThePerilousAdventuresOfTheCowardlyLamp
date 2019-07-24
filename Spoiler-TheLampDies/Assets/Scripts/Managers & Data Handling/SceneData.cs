@@ -6,11 +6,11 @@ public class SceneData : MonoBehaviour {
 
 	public GameState gameState;
 	public int levelNumber;
-
-	private int totalShardAmount;
+	
 	public int TotalShardAmount
 	{
-		get { return totalShardAmount; }
+		get;
+		private set;
 	}
 
 	private void Awake()
@@ -18,13 +18,13 @@ public class SceneData : MonoBehaviour {
 		if (gameObject.tag != "SceneData")
 			gameObject.tag = "SceneData";
 
-		totalShardAmount = 0;
+		TotalShardAmount = 0;
 		foreach (var i in GameObject.FindGameObjectsWithTag("ShardGround"))
 		{
 			ShardGround sg = i.GetComponent<ShardGround>();
 			if (sg)
 			{
-				totalShardAmount += sg.shardAmount * sg.shardItemPrefab.value;
+				TotalShardAmount += sg.shardAmount * sg.shardItemPrefab.value;
 			}
 		}
 	}

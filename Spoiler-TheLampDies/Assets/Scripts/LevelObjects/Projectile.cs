@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public struct ProjectileData
@@ -57,14 +55,14 @@ public class Projectile : MonoBehaviour, IDamageable {
 	{
 		get { return active; }
 	}
-	private Rigidbody2D rb;
+	private Rigidbody2D rb2D;
 
 	// Use this for initialization
 	void Awake () 
 	{
-		rb = GetComponent<Rigidbody2D>();
-		if (!rb)
-			rb = gameObject.AddComponent<Rigidbody2D>();
+		rb2D = GetComponent<Rigidbody2D>();
+		if (!rb2D)
+			rb2D = gameObject.AddComponent<Rigidbody2D>();
 		
 		origSize = transform.localScale;
 
@@ -127,13 +125,13 @@ public class Projectile : MonoBehaviour, IDamageable {
 	private void FixedUpdate() {
 		
 		//Apply current speed.
-		var vel = speed * data.direction;
+		var newVel = speed * data.direction;
 
-		//Add player speed effect into velocity if it is helpful.
-		if ((rbVelocityEffect + vel).magnitude > vel.magnitude)
-			rb.velocity = vel + rbVelocityEffect;
-		else
-			rb.velocity = vel;
+		//Add player speed effect into velocity if it is helpful. This additional speed will lerp into zero in update
+		if ((rbVelocityEffect + newVel).sqrMagnitude > newVel.sqrMagnitude)
+			newVel += rbVelocityEffect;
+
+		rb2D.velocity = Vector2.Lerp(rb2D.velocity, newVel, Time.fixedUnscaledDeltaTime*10f);
 
 	}
 
@@ -149,8 +147,8 @@ public class Projectile : MonoBehaviour, IDamageable {
 			var newDir = Vector2.Reflect(data.direction, col.contacts[0].normal);
 			transform.up = newDir.normalized;
 			data.direction = newDir.normalized;
-			rb.velocity = data.direction * speed;
-			rb.angularVelocity = 0;
+			rb2D.velocity = data.direction * speed;
+			rb2D.angularVelocity = 0;
 		}
 		//Colliding layers destroy projectile. Enemies should be in colliding layers as well.
 		if (data.collidingLayers == (data.collidingLayers | (1 << col.gameObject.layer)))
@@ -171,12 +169,13 @@ public class Projectile : MonoBehaviour, IDamageable {
 		active = true;
 		startTime = Time.time;
 		lifetime = Random.Range(data.minMaxLifetime.x,data.minMaxLifetime.y);
-		rb.simulated = true;
+		rb2D.simulated = true;
 		col.enabled = true;
 		visuals.SetActive(true);
 		transform.localScale = origSize;
 		transform.position = data.startPosition;
 		transform.rotation = Quaternion.LookRotation(Vector3.forward, data.direction);
+
 
 		if (trailPS)
 			trailPS.Play();	
@@ -211,7 +210,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 		stopping = true;
 		col.enabled = false;
 		visuals.SetActive(false);
-		rb.velocity = Vector2.zero;
-		rb.simulated = false;
+		rb2D.velocity = Vector2.zero;
+		rb2D.simulated = false;
 	}
 }
