@@ -67,7 +67,7 @@ public class PlayerProjectileAttack : MonoBehaviour {
 
 		projectileData.direction = dir;
 		projectileData.startPosition = new Vector2(transform.position.x, transform.position.y) + dir*0.5f;
-		projectileData.playerSpeed = player.rb.velocity;
+		projectileData.initialVelocityEffect = player.rb.velocity;
 
 		currentProjectile = GetProjectile();
 		currentProjectile.data = projectileData;

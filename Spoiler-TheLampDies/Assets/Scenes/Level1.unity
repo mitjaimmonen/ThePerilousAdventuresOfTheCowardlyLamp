@@ -1061,6 +1061,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.41451585
+      objectReference: {fileID: 0}
+    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.41855595
+      objectReference: {fileID: 0}
+    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.4245283
+      objectReference: {fileID: 0}
     - target: {fileID: 4235467574353530, guid: 2a9df54c60812de45be7593e9e327229, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1092,26 +1112,6 @@ PrefabInstance:
     - target: {fileID: 4235467574353530, guid: 2a9df54c60812de45be7593e9e327229, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
-        type: 3}
-      propertyPath: m_ClearFlags
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
-        type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.41451585
-      objectReference: {fileID: 0}
-    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
-        type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.41855595
-      objectReference: {fileID: 0}
-    - target: {fileID: 20455282620948512, guid: 2a9df54c60812de45be7593e9e327229,
-        type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.4245283
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a9df54c60812de45be7593e9e327229, type: 3}
@@ -3246,6 +3246,35 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1555512060}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1560181558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593844630906490, guid: 2a9df54c60812de45be7593e9e327229,
+    type: 3}
+  m_PrefabInstance: {fileID: 376324418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1560181563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560181558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: event:/Ambience
+  PlayEvent: 1
+  StopEvent: 0
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1694797105
 GameObject:
   m_ObjectHideFlags: 0

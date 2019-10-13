@@ -8,7 +8,7 @@ public struct ProjectileData
 	[HideInInspector]
 	public Vector2 direction;
 	[HideInInspector]
-	public Vector2 playerSpeed;
+	public Vector2 initialVelocityEffect;
 	public float damage;
 	public Vector2 minMaxLifetime;
 	public Vector2 startToEndSpeed;
@@ -104,8 +104,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 			speed = Mathf.Lerp(data.startToEndSpeed.x, data.startToEndSpeed.y, lerpTime);
 			size = Mathf.Lerp(data.startToEndSize.x, data.startToEndSize.y, lerpTime);
 			//Velocity effect is the added speed of player at the time of shot.
-			rbVelocityEffect = Vector2.Lerp(data.playerSpeed, Vector2.zero, lerpTime);
-
+			rbVelocityEffect = Vector2.Lerp(data.initialVelocityEffect, Vector2.zero, lerpTime);
 
 			//Rotate towards movement direction.
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, data.direction), Time.deltaTime * 15f);
@@ -149,6 +148,7 @@ public class Projectile : MonoBehaviour, IDamageable {
 			data.direction = newDir.normalized;
 			rb2D.velocity = data.direction * speed;
 			rb2D.angularVelocity = 0;
+			data.initialVelocityEffect = newDir.normalized * rbVelocityEffect.magnitude;
 		}
 		//Colliding layers destroy projectile. Enemies should be in colliding layers as well.
 		if (data.collidingLayers == (data.collidingLayers | (1 << col.gameObject.layer)))

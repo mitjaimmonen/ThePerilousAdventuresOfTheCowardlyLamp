@@ -7,62 +7,17 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Priority: 2, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000000007792E2C8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000000005B214BF8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] PlaybackSystem::init                     : done
 [LOG] Thread::initThread                       : Init FMOD Studio bank load thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] Manager::init                            : done.
-[LOG] Manager::readBank                        : fileversion = 101, compatVersion = 99 (oldest = 44, newest = 101)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SystemI::createSound                     : filename = C:\Users\Laptop\Documents\Git\ThePerilousAdventuresOfTheCowardlyLamp\Spoiler-TheLampDies\Assets\FMOD\Project\Build\Desktop\Master Bank.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000000006FB51EC8 : node = 000000004E3E83F0
-[LOG] SystemI::createSound                     : add node to async list : head = 00000000522DCED8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000006FB51EC8
-[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\Laptop\Documents\Git\ThePerilousAdventuresOfTheCowardlyLamp\Spoiler-TheLampDies\Assets\FMOD\Project\Build\Desktop\Master Bank.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2815936
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 36032
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000004E3E8508
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Frozen Landscape', format=2, channels=2, frequency=48000, lengthbytes=2343488, lengthpcm=9380572, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.749298.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000006FB51EC8
-[LOG] SoundI::getSubSound                      : sound 000000006FB51EC8.  Subsound index 0 / 1
-[LOG] SoundI::release                          : Frozen Landscape (000000006FB51EC8)
-[LOG] SoundI::release                          :     Frozen Landscape (000000006F3ECFB8)
-[LOG] SoundI::release                          :     Frozen Landscape (000000006FB52DF8)
-[LOG] SoundI::release                          : Frozen Landscape (000000004D94B748)
-[LOG] SoundI::release                          :     Frozen Landscape (000000006F39C4F8)
-[LOG] SoundI::release                          :     Frozen Landscape (000000004D94CB88)
-[LOG] SoundI::release                          :  (0000000051DDDBF8)
-[LOG] SoundI::release                          :     shoot shard (000000006F3ED638)
-[LOG] SoundI::release                          :  (0000000051DDE498)
-[LOG] SoundI::release                          :     laser impact (00000000524A0958)
-[LOG] SoundI::release                          :  (000000005227B718)
-[LOG] SoundI::release                          :     Laser Sound Effect (0000000052371B98)
-[LOG] SoundI::release                          :  (000000005227B9F8)
-[LOG] SoundI::release                          :     Future Weapons 2 - Source - Laser Source_3 (0000000052371858)
-[LOG] Thread::callback                         : FMOD Studio update thread finished.
-[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
-[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
-[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
-[LOG] LiveUpdate::release                      : 
-[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
-[LOG] Thread::callback                         : FMOD stream thread finished.
-[LOG] Thread::callback                         : FMOD mixer thread finished.
-[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
-[LOG] SystemI::close                           : Closed.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
 [LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
-[LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
-[LOG] Thread::callback                         : FMOD file thread finished.
 [LOG] SystemI::close                           : Closed.

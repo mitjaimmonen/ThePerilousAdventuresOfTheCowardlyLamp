@@ -87,7 +87,8 @@ public class SoundMaster : MonoBehaviour {
 
 	public void PlayShoot(Vector2 pos)
 	{
-			FMODUnity.RuntimeManager.PlayOneShot(shootSE, pos);
+		UnityEngine.Debug.Log("Playing sound");
+		FMODUnity.RuntimeManager.PlayOneShot(shootSE, pos);
 	}
 	public void PlayProjectileBounce(Vector2 pos)
 	{
