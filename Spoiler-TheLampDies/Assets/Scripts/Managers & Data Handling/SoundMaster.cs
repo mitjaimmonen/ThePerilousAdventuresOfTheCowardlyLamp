@@ -58,14 +58,14 @@ public class SoundMaster : MonoBehaviour {
 			//Lerp value for smooth effect.
 			healthLerp = Mathf.Lerp(healthLerp, health, Time.deltaTime*3.5f);
 			//Apply parameter to fmod. (Makes lowpass & pitch change effect when damage taken)
-			musicEI.setParameterValue("PlayerHealth", healthLerp);
+			musicEI.setParameterByName("PlayerHealth", healthLerp);
 		}
 		else
 		{
 			//In menu keep parameter at 1
 			health = 1f;
 			healthLerp = Mathf.Lerp(healthLerp, health, Time.deltaTime*2f);
-			musicEI.setParameterValue("PlayerHealth", healthLerp);
+			musicEI.setParameterByName("PlayerHealth", healthLerp);
 		}
 
 
